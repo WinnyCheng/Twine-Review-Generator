@@ -1,2 +1,2 @@
 # TwineBot
-Bot to play twine games and measure different metrics
+Bot to play twine games and measure different metrics.
