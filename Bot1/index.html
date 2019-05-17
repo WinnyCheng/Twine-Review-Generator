@@ -5,6 +5,16 @@
     <title>Title</title>
 </head>
 <body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js">
+    </script>
+    <script>
 
+        var url = "http://localhost:3000/";
+        $.getJSON(url , function (data) {
+            console.log(data);
+            console.log("Poo");
+        })
+
+    </script>
 </body>
 </html>
