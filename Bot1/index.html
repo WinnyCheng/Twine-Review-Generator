@@ -11,9 +11,9 @@
 
         var url = "http://localhost:3000/links";
 
-        function getLinks(){
-            return $.getJSON(url);
-        }
+        // function getLinks(){
+        //     return $.getJSON(url);
+        // }
 
 
         // var numLinks;
@@ -32,22 +32,59 @@
         // }
 
         function click(option){
-            return "http://localhost:3000/click/" + option;
+            $.get("http://localhost:3000/click/" + option);
+        }
+        function reset(){
+            $.get("http://localhost:3000/reset");
         }
 
 
 
-        function main(){
-            var numLinks;
-            $.when(getLinks()).then(function(links){
-                console.log("I am doing JQuery")
-                numLinks = links.links.length;
-                console.log(numLinks);
-            });
-            console.log("my numLinks are")
-            console.log(numLinks);
-        }
-        main()
+        // function main(){
+        //     var numLinks;
+        //     $.when(getLinks()).then(function(links){
+        //         console.log("I am doing JQuery")
+        //         numLinks = links.links.length;
+        //         console.log(numLinks);
+        //     });
+        //     console.log("my numLinks are")
+        //     console.log(numLinks);
+        // }
+        // main()
+
+
+        // function play(turns){
+        //     $.getJSON(url, function(data){
+        //         var numLinks = data.links.length;
+        //         console.log(data);
+        //         if(numLinks === 0 || turns == 5){
+        //             console.log(turns);
+        //         }
+        //         else {
+        //             var ranOp = Math.floor(Math.random() * (numLinks - 1));
+        //             console.log(ranOp);
+        //             click(ranOp);
+        //             play(turns+1);
+        //         }
+        //     })
+        // }
+
+
+
+        // $.getJSON(url).then(function(data1){
+        //     console.log("1");
+        //     console.log(data1.links);
+        //     click(0);
+        // });
+        //
+        // $.getJSON(url).then(function(data){
+        //     console.log("2");
+        //     console.log(data.links);
+        // });
+
+        //play(0);
+
+        reset();
 
     </script>
 </body>
