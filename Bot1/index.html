@@ -9,11 +9,45 @@
     </script>
     <script>
 
-        var url = "http://localhost:3000/";
-        $.getJSON(url , function (data) {
-            console.log(data);
-            console.log("Poo");
-        })
+        var url = "http://localhost:3000/links";
+
+        function getLinks(){
+            return $.getJSON(url);
+        }
+
+
+        // var numLinks;
+        // function getData(links){
+        //     numLinks = links.links.length;
+        //     console.log("inside " + numLinks);
+        //     // var turns = 0;
+        //     // var limit = 100;
+        //     // while(numLinks > 0 && turns < 100){
+        //     //     var ranOp = Math.floor(Math.random()*(numLinks-1));
+        //     //     click(ranOp);
+        //     //     console.log("option" + ranOp);
+        //     //     turns++;
+        //     // }
+        //     // console.log("Turns" + turns);
+        // }
+
+        function click(option){
+            return "http://localhost:3000/click/" + option;
+        }
+
+
+
+        function main(){
+            var numLinks;
+            $.when(getLinks()).then(function(links){
+                console.log("I am doing JQuery")
+                numLinks = links.links.length;
+                console.log(numLinks);
+            });
+            console.log("my numLinks are")
+            console.log(numLinks);
+        }
+        main()
 
     </script>
 </body>
