@@ -11,26 +11,6 @@
 
         var url = "http://localhost:3000/links";
 
-        // function getLinks(){
-        //     return $.getJSON(url);
-        // }
-
-
-        // var numLinks;
-        // function getData(links){
-        //     numLinks = links.links.length;
-        //     console.log("inside " + numLinks);
-        //     // var turns = 0;
-        //     // var limit = 100;
-        //     // while(numLinks > 0 && turns < 100){
-        //     //     var ranOp = Math.floor(Math.random()*(numLinks-1));
-        //     //     click(ranOp);
-        //     //     console.log("option" + ranOp);
-        //     //     turns++;
-        //     // }
-        //     // console.log("Turns" + turns);
-        // }
-
         function click(option){
             $.get("http://localhost:3000/click/" + option);
         }
@@ -38,53 +18,27 @@
             $.get("http://localhost:3000/reset");
         }
 
-
-
-        // function main(){
-        //     var numLinks;
-        //     $.when(getLinks()).then(function(links){
-        //         console.log("I am doing JQuery")
-        //         numLinks = links.links.length;
-        //         console.log(numLinks);
-        //     });
-        //     console.log("my numLinks are")
-        //     console.log(numLinks);
-        // }
-        // main()
-
-
-        // function play(turns){
-        //     $.getJSON(url, function(data){
-        //         var numLinks = data.links.length;
-        //         console.log(data);
-        //         if(numLinks === 0 || turns == 5){
-        //             console.log(turns);
-        //         }
-        //         else {
-        //             var ranOp = Math.floor(Math.random() * (numLinks - 1));
-        //             console.log(ranOp);
-        //             click(ranOp);
-        //             play(turns+1);
-        //         }
-        //     })
-        // }
-
-
-
-        // $.getJSON(url).then(function(data1){
-        //     console.log("1");
-        //     console.log(data1.links);
-        //     click(0);
-        // });
-        //
-        // $.getJSON(url).then(function(data){
-        //     console.log("2");
-        //     console.log(data.links);
-        // });
-
-        //play(0);
+        //Recursion
+        function play(turns) {
+            $.getJSON(url, function (data) {
+                var numLinks = data.links.length;
+                console.log(data.links);
+                if (numLinks === 0 || turns === 10) {
+                    console.log(turns);
+                } else {
+                    var ranOp = Math.round(Math.random() * (numLinks - 1));
+                    console.log(ranOp);
+                    click(ranOp);
+                    setTimeout(function () {
+                        play(turns + 1);
+                    }, 100);
+                }
+            })
+        }
 
         reset();
+        setTimeout(function(){ play(0);}, 1000)
+
 
     </script>
 </body>
