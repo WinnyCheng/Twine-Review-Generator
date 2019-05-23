@@ -13,6 +13,8 @@
         // function click(option){
         //     $.get("http://localhost:3000/click/" + option);
         // }
+
+        //reset game
         function reset(){
             $.get("http://localhost:3000/reset");
         }
@@ -37,7 +39,7 @@
         //     })
         // }
 
-        //Recursion with continuous while loop
+        //Recursion
         var turns = 0;
         var numPlays = [];
         function play(pre) {
@@ -45,15 +47,21 @@
                 var links = data.links;
                 var numLinks = data.links.length;
 
+                //end of game
                 if (numLinks === 0) {
                     numPlays.push(turns);
+                    // console.log(numPlays);
                     turns = 0;
                 }
+                //same as previous, skip
                 else if(links[0].text === pre){
                     play(links[0].text);
                 }
+                //next stage of game, choose option, move on
                 else {
+                    //generate random number with number of options
                     var ranOp = Math.round(Math.random() * (numLinks - 1));
+                    //click random option
                     $.get("http://localhost:3000/click/" + ranOp, function () {
                         turns++;
                         play(links[0].text);
@@ -62,6 +70,7 @@
             })
         }
 
+        //multiply play throughs
         for(let i = 0; i < 20; i++){
             setTimeout(function(){
                 reset();
