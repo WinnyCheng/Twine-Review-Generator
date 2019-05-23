@@ -5,39 +5,71 @@
     <title>Title</title>
 </head>
 <body>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
 
         var url = "http://localhost:3000/links";
 
-        function click(option){
-            $.get("http://localhost:3000/click/" + option);
-        }
+        // function click(option){
+        //     $.get("http://localhost:3000/click/" + option);
+        // }
         function reset(){
             $.get("http://localhost:3000/reset");
         }
 
-        //Recursion
-        function play(turns) {
+        //Recursion with delay
+        // var turns = 0;
+        // function play() {
+        //     $.getJSON(url, function (data) {
+        //         var numLinks = data.links.length;
+        //         // console.log(data.links);
+        //         if (numLinks === 0 || turns === 10) {
+        //             // console.log(turns);
+        //         } else {
+        //             var ranOp = Math.round(Math.random() * (numLinks - 1));
+        //             // console.log(ranOp);
+        //             click(ranOp);
+        //             setTimeout(function () {
+        //                 turns++;
+        //                 play();
+        //             }, 100);
+        //         }
+        //     })
+        // }
+
+        //Recursion with continuous while loop
+        var turns = 0;
+        var numPlays = [];
+        function play(pre) {
             $.getJSON(url, function (data) {
+                var links = data.links;
                 var numLinks = data.links.length;
-                console.log(data.links);
-                if (numLinks === 0 || turns === 10) {
-                    console.log(turns);
-                } else {
+
+                if (numLinks === 0) {
+                    numPlays.push(turns);
+                    turns = 0;
+                }
+                else if(links[0].text === pre){
+                    play(links[0].text);
+                }
+                else {
                     var ranOp = Math.round(Math.random() * (numLinks - 1));
-                    console.log(ranOp);
-                    click(ranOp);
-                    setTimeout(function () {
-                        play(turns + 1);
-                    }, 100);
+                    $.get("http://localhost:3000/click/" + ranOp, function () {
+                        turns++;
+                        play(links[0].text);
+                    })
                 }
             })
         }
 
-        reset();
-        setTimeout(function(){ play(0);}, 1000)
+        for(let i = 0; i < 20; i++){
+            setTimeout(function(){
+                reset();
+            }, 2000*i);
+            setTimeout(function(){
+                play("  ");
+            }, 2000*i+1000);
+        }
 
 
     </script>
