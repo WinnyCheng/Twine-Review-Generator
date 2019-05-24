@@ -98,7 +98,10 @@
             })
         }
 
+        //inital play
         play("");
+
+        //make sure game is rested before playing twine again
         for(let i = 1; i < numGames; i++){
             setTimeout(function(){
                 //reset twine game
@@ -108,14 +111,13 @@
             }, millsec*i);
         }
 
-        //multiply play through with delay on a game play
         function checkReset2(){
             $.getJSON(url, function(data){
                 //not finished resetting
                 if(data.links.length === 0){
                     checkReset2();
                 }
-                //reset finished, play twine
+                //reset finished, print sum average
                 else{
                     var sum = numPlays.reduce(getSum);
                     var average = sum / numPlays.length;
@@ -126,6 +128,7 @@
             })
         }
 
+        //last reset
         setTimeout(function(){
             $.get("http://localhost:3000/reset", function(){
                 checkReset2();
@@ -141,6 +144,7 @@
         //     console.log(average);
         //
         // }, millsec*numGames);
+
         function getSum(total, num){
             return total + num;
         }
