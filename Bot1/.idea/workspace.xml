@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="201e86c3-da69-4e52-b9b3-cbcd12594ac3" name="Default Changelist" comment="Calcs sum and average">
+    <list default="true" id="201e86c3-da69-4e52-b9b3-cbcd12594ac3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
@@ -19,13 +19,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="115" column="12" selection-start-line="115" selection-start-column="12" selection-end-line="115" selection-end-column="12" />
+            <state relative-caret-position="475">
+              <caret line="108" column="27" lean-forward="true" selection-start-line="108" selection-start-column="27" selection-end-line="108" selection-end-column="27" />
               <folding>
                 <element signature="e#251#277#0" />
                 <element signature="e#363#375#0" />
-                <element signature="e#471#493#0" />
-                <element signature="e#2368#2420#0" />
               </folding>
             </state>
           </provider>
@@ -64,8 +62,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -115,7 +113,8 @@
       <workItem from="1558398184906" duration="615000" />
       <workItem from="1558450753327" duration="17305000" />
       <workItem from="1558624767741" duration="7473000" />
-      <workItem from="1558662290760" duration="2570000" />
+      <workItem from="1558662290760" duration="2602000" />
+      <workItem from="1558708304292" duration="521000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -159,14 +158,21 @@
       <option name="project" value="LOCAL" />
       <updated>1558644233564</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Calcs sum and average">
+      <created>1558664878122</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1558664878122</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50872000" />
+    <option name="totallyTimeSpent" value="51425000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
+    <frame x="953" y="0" width="974" height="1047" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23076923" />
@@ -218,13 +224,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="115" column="12" selection-start-line="115" selection-start-column="12" selection-end-line="115" selection-end-column="12" />
+        <state relative-caret-position="475">
+          <caret line="108" column="27" lean-forward="true" selection-start-line="108" selection-start-column="27" selection-end-line="108" selection-end-column="27" />
           <folding>
             <element signature="e#251#277#0" />
             <element signature="e#363#375#0" />
-            <element signature="e#471#493#0" />
-            <element signature="e#2368#2420#0" />
           </folding>
         </state>
       </provider>
