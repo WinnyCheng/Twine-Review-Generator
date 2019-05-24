@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="201e86c3-da69-4e52-b9b3-cbcd12594ac3" name="Default Changelist" comment="">
+    <list default="true" id="201e86c3-da69-4e52-b9b3-cbcd12594ac3" name="Default Changelist" comment="Calcs sum and average">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
@@ -19,8 +19,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="72" column="24" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
+            <state relative-caret-position="594">
+              <caret line="115" column="12" selection-start-line="115" selection-start-column="12" selection-end-line="115" selection-end-column="12" />
+              <folding>
+                <element signature="e#251#277#0" />
+                <element signature="e#363#375#0" />
+                <element signature="e#471#493#0" />
+                <element signature="e#2368#2420#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -57,7 +63,10 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -105,7 +114,8 @@
       <workItem from="1558361440614" duration="6555000" />
       <workItem from="1558398184906" duration="615000" />
       <workItem from="1558450753327" duration="17305000" />
-      <workItem from="1558624767741" duration="7423000" />
+      <workItem from="1558624767741" duration="7473000" />
+      <workItem from="1558662290760" duration="2570000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -142,17 +152,24 @@
       <option name="project" value="LOCAL" />
       <updated>1558642741729</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added some comments">
+      <created>1558644233564</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1558644233564</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48252000" />
+    <option name="totallyTimeSpent" value="50872000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.23076923" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23076923" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -180,7 +197,9 @@
     <MESSAGE value="Able to connect to server and obtain JSON.&#10;&#10;[Problem] is doing multiple calls to scrape when the url changes thanks to us picking a choice." />
     <MESSAGE value="Temp solution with setTimeOut" />
     <MESSAGE value="Recursion check previous link's text, no setTimeout within play&#10;multiple play through with setTimeout" />
-    <option name="LAST_COMMIT_MESSAGE" value="Recursion check previous link's text, no setTimeout within play&#10;multiple play through with setTimeout" />
+    <MESSAGE value="added some comments" />
+    <MESSAGE value="Calcs sum and average" />
+    <option name="LAST_COMMIT_MESSAGE" value="Calcs sum and average" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/html.html" />
@@ -199,8 +218,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="72" column="24" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
+        <state relative-caret-position="594">
+          <caret line="115" column="12" selection-start-line="115" selection-start-column="12" selection-end-line="115" selection-end-column="12" />
+          <folding>
+            <element signature="e#251#277#0" />
+            <element signature="e#363#375#0" />
+            <element signature="e#471#493#0" />
+            <element signature="e#2368#2420#0" />
+          </folding>
         </state>
       </provider>
     </entry>
