@@ -19,11 +19,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="108" column="27" lean-forward="true" selection-start-line="108" selection-start-column="27" selection-end-line="108" selection-end-column="27" />
+            <state relative-caret-position="611">
+              <caret line="139" column="32" lean-forward="true" selection-start-line="139" selection-start-column="32" selection-end-line="139" selection-end-column="32" />
               <folding>
                 <element signature="e#251#277#0" />
                 <element signature="e#363#375#0" />
+                <element signature="e#480#502#0" />
+                <element signature="e#2380#2432#0" />
               </folding>
             </state>
           </provider>
@@ -63,13 +65,23 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Bot1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bot1" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Twine_Games/Escape_Olive" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -114,7 +126,7 @@
       <workItem from="1558450753327" duration="17305000" />
       <workItem from="1558624767741" duration="7473000" />
       <workItem from="1558662290760" duration="2602000" />
-      <workItem from="1558708304292" duration="521000" />
+      <workItem from="1558708304292" duration="5329000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -165,14 +177,28 @@
       <option name="project" value="LOCAL" />
       <updated>1558664878122</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="mockTwine for testing purposes">
+      <created>1558708909330</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1558708909330</updated>
+    </task>
+    <task id="LOCAL-00009" summary="mockTwine for testing purposes">
+      <created>1558709118176</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1558709118176</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51425000" />
+    <option name="totallyTimeSpent" value="56233000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="1" />
+    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23076923" />
@@ -205,7 +231,8 @@
     <MESSAGE value="Recursion check previous link's text, no setTimeout within play&#10;multiple play through with setTimeout" />
     <MESSAGE value="added some comments" />
     <MESSAGE value="Calcs sum and average" />
-    <option name="LAST_COMMIT_MESSAGE" value="Calcs sum and average" />
+    <MESSAGE value="mockTwine for testing purposes" />
+    <option name="LAST_COMMIT_MESSAGE" value="mockTwine for testing purposes" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/html.html" />
@@ -222,13 +249,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mockTwine.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+          <folding>
+            <element signature="n#style#0;n#tw-colour#0;n#!!top" expanded="true" />
+            <element signature="e#89#95#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="108" column="27" lean-forward="true" selection-start-line="108" selection-start-column="27" selection-end-line="108" selection-end-column="27" />
+        <state relative-caret-position="611">
+          <caret line="139" column="32" lean-forward="true" selection-start-line="139" selection-start-column="32" selection-end-line="139" selection-end-column="32" />
           <folding>
             <element signature="e#251#277#0" />
             <element signature="e#363#375#0" />
+            <element signature="e#480#502#0" />
+            <element signature="e#2380#2432#0" />
           </folding>
         </state>
       </provider>
