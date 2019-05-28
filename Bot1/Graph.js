@@ -37,8 +37,12 @@ class Graph {
     }
 }
 
+var url = "http://localhost:3000/links";
+
 var g = new Graph();
 g.addVertex("Beginning");
+
+play(" ", "Beginning");
 
 function play(pre, v) {
     $.getJSON(url, function (data) {
@@ -47,40 +51,40 @@ function play(pre, v) {
 
         //end of game
         if (numLinks === 0) {
-            g.printGraph();
+
         }
         //same as previous, skip
         else if(links[0].text === pre){
-            play(links[0].text);
+            play(links[0].text, v);
         }
         //next stage of game, choose option, move on
         else {
-            for(let i = 0; i < numLinks; i++){
+            for(let i = 0; i < numLinks; i++) {
                 //check if vertex of link exist
-                var keys = this.E.keys();
+                var keys = g.E.keys();
                 var newLink = true;
-                for(var k of keys){
+                for (let k of keys) {
                     //add edge
-                    if(k === links[i].text) {
+                    if (k === links[i].text) {
                         g.addEdge(v, k);
                         newLink = false;
                         break;
                     }
                 }
-                if(newLink){
+                if (newLink) {
                     //create vertex and add edge
-                    g.addVertex()
+                    g.addVertex(links[i].text);
+                    g.addEdge(v, links[i].text);
                 }
-                //click on link
+                $.get("http://localhost:3000/click/" + i, function () {
+                    // console.log(links[i].text);
+                    play(links[0].text, links[i].text);
+                })
             }
-
-            //generate random number with number of options
-            var ranOp = Math.round(Math.random() * (numLinks - 1));
-            //click random option
-            $.get("http://localhost:3000/click/" + ranOp, function () {
-                turns++;
-                play(links[0].text);
-            })
         }
     })
 }
+
+setTimeout(function(){
+    g.printGraph();
+}, 5000);
