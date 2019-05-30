@@ -60,26 +60,28 @@ function play(pre, v) {
         //next stage of game, choose option, move on
         else {
             for(let i = 0; i < numLinks; i++) {
-                //check if vertex of link exist
-                var keys = g.E.keys();
-                var newLink = true;
-                for (let k of keys) {
-                    //add edge
-                    if (k === links[i].text) {
-                        g.addEdge(v, k);
-                        newLink = false;
-                        break;
+                setTimeout(function(){
+                    //check if vertex of link exist
+                    var keys = g.E.keys();
+                    var newLink = true;
+                    for (let k of keys) {
+                        //add edge
+                        if (k === links[i].text) {
+                            g.addEdge(v, k);
+                            newLink = false;
+                            break;
+                        }
                     }
-                }
-                if (newLink) {
-                    //create vertex and add edge
-                    g.addVertex(links[i].text);
-                    g.addEdge(v, links[i].text);
-                }
-                $.get("http://localhost:3000/click/" + i, function () {
-                    // console.log(links[i].text);
-                    play(links[0].text, links[i].text);
-                })
+                    if (newLink) {
+                        //create vertex and add edge
+                        g.addVertex(links[i].text);
+                        g.addEdge(v, links[i].text);
+                    }
+                    $.get("http://localhost:3000/click/" + i, function () {
+                        // console.log(links[i].text);
+                        play(links[0].text, links[i].text);
+                    })
+                }, 2000);
             }
         }
     })
@@ -87,4 +89,4 @@ function play(pre, v) {
 
 setTimeout(function(){
     g.printGraph();
-}, 5000);
+}, 20000);
