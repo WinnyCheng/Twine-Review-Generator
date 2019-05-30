@@ -6,6 +6,10 @@
 // $('h2').addClass('welcome');
 //
 // $.html();
+$.ajaxSetup({
+    async: false
+});
+
 
 
 // creates graph and then multiple play through will be from graph
@@ -53,14 +57,11 @@ function play(pre, v) {
         if (numLinks === 0) {
 
         }
-        //same as previous, skip
-        else if(links[0].text === pre){
-            play(links[0].text, v);
-        }
+
         //next stage of game, choose option, move on
         else {
             for(let i = 0; i < numLinks; i++) {
-                setTimeout(function(){
+                // setTimeout(function(){
                     //check if vertex of link exist
                     var keys = g.E.keys();
                     var newLink = true;
@@ -80,13 +81,13 @@ function play(pre, v) {
                     $.get("http://localhost:3000/click/" + i, function () {
                         // console.log(links[i].text);
                         play(links[0].text, links[i].text);
-                    })
-                }, 2000);
+                        $.get("http://localhost:3000/undo");
+                        console.log("Play");
+                    });
+                // }, 2000);
             }
         }
     })
 }
 
-setTimeout(function(){
-    g.printGraph();
-}, 20000);
+g.printGraph();
