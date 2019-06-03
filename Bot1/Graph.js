@@ -1,28 +1,27 @@
 
-// const cheerio = require('cheerio');
-// const $ = cheerio.load('<h2 class="title">Hello world</h2>');
-//
-// $('h2.title').text('Hello there!');
-// $('h2').addClass('welcome');
-//
-// $.html();
-
+$.ajaxSetup({
+    async: false
+});
 
 // creates graph and then multiple play through will be from graph
-
 
 // graph implementation
 class Graph {
     constructor(){
         this.V = 0;
         this.E = new Map();
+        this.M = new Map();
     }
     addVertex(v){
         this.V = this.V + 1;
         this.E.set(v, []);
+        this.M.set(v, false);
     }
     addEdge(v, w){
         this.E.get(v).push(w);
+    }
+    mark(v){
+        this.M.set(v, true);
     }
     printGraph(){
         var keys = this.E.keys();
@@ -37,8 +36,12 @@ class Graph {
     }
 }
 
+var url = "http://localhost:3000/links";
+
 var g = new Graph();
 g.addVertex("Beginning");
+
+play(" ", "Beginning");
 
 function play(pre, v) {
     $.getJSON(url, function (data) {
@@ -47,40 +50,45 @@ function play(pre, v) {
 
         //end of game
         if (numLinks === 0) {
-            g.printGraph();
+            g.mark(v);
         }
-        //same as previous, skip
-        else if(links[0].text === pre){
-            play(links[0].text);
+        else if(g.M.get(v)){
+            //do nothing
         }
         //next stage of game, choose option, move on
         else {
-            for(let i = 0; i < numLinks; i++){
+            for(let i = 0; i < numLinks; i++) {
+                if(i === numLinks-1){
+                    g.mark(v);
+                }
+                // setTimeout(function(){
                 //check if vertex of link exist
-                var keys = this.E.keys();
+                var keys = g.E.keys();
                 var newLink = true;
-                for(var k of keys){
+                for (let k of keys) {
                     //add edge
-                    if(k === links[i].text) {
+                    if (k === links[i].text) {
                         g.addEdge(v, k);
                         newLink = false;
                         break;
                     }
                 }
-                if(newLink){
+                if (newLink) {
                     //create vertex and add edge
-                    g.addVertex()
+                    g.addVertex(links[i].text);
+                    g.addEdge(v, links[i].text);
                 }
-                //click on link
+                $.get("http://localhost:3000/click/" + i, function () {
+                    // console.log(links[i].text);
+                    play(links[0].text, links[i].text);
+                    $.get("http://localhost:3000/undo");
+                    console.log("Play");
+                });
+                // }, 2000);
             }
-
-            //generate random number with number of options
-            var ranOp = Math.round(Math.random() * (numLinks - 1));
-            //click random option
-            $.get("http://localhost:3000/click/" + ranOp, function () {
-                turns++;
-                play(links[0].text);
-            })
         }
     })
 }
+
+g.printGraph();
+
