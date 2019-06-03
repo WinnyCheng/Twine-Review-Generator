@@ -25,8 +25,10 @@ class Graph {
     addVertex(text){
         this.V = this.V + 1;
         // todo add function to get children
-        // var children = getChildren(text);
-        this.E.set(text, []);
+        let children = this.getChildren(text);
+        // console.log(children);
+
+        this.E.set(text, children);
         this.M.set(text, false);
     }
     addEdge(v, w){
@@ -46,6 +48,66 @@ class Graph {
         return this.Text.indexOf(text);
     }
 
+    // todo this should be a function of the node ***
+    // INPUT: text from novel node
+    // RETURN: Array with the children text of the current node
+    // it also clicks and returns in order to stay in the same node
+    getChildren(text){
+
+        let children = [];
+        let links = [];
+
+        // do something
+        // var data = $.getJSON("http://localhost:3000/links");
+        // var links = data['links'];
+        // // var numLinks = data.links.length;
+        console.log("My links are: ");
+        // console.log(links);
+
+        // console.log(numLinks);
+        // $.getJSON("http://localhost:3000/links", function (data) {
+        //     var links = data.links;
+        //     var numLinks = data.links.length;
+        // }
+        // todo push children into array
+        // this.E.get(text).push();
+
+        $.getJSON("http://localhost:3000/links", function (data) {
+            console.log("My links are: ");
+            console.log(data);
+            links = data['links'];
+            let numLinks = data['links'].length;
+            console.log(numLinks);
+
+            for(let i = 0; i < numLinks; i++) {
+                $.get("http://localhost:3000/click/" + i, function () {
+                    // console.log(links[i].text);
+                    // play(links[0].text, links[i].text);
+
+                    $.get("http://localhost:3000/text", function (text) {
+                        console.log("the text is:")
+                        console.log(text['text']);
+                    });
+
+                    $.get("http://localhost:3000/undo");
+                    // console.log("Play");
+                });
+
+
+            }
+
+
+
+        });
+
+
+
+        console.log("my children are: ")
+        console.log(links);
+
+        return children;
+    }
+
     // todo edit print Graph to accomodate for E being an array now
     printGraph(){
         console.log("I will start printing the graph")
@@ -61,15 +123,9 @@ class Graph {
     }
 }
 
-// todo this should be a function of the node ***
-// INPUT: text from novel node
-// RETURN: Array with the children text of the current node
-// it also clicks and returns in order to stay in the same node
-function getChildren(graph, text){
-    // do something
 
-    return [];
-}
+
+
 
 var url = "http://localhost:3000/links";
 
@@ -93,51 +149,51 @@ g.printGraph();
 
 
 
-// function play(pre, v) {
-//     $.getJSON("http://localhost:3000/links", function (data) {
-//         var links = data.links;
-//         var numLinks = data.links.length;
-//
-//         //end of game
-//         if (numLinks === 0) {
-//             g.mark(v);
-//         }
-//         else if(g.M.get(v)){
-//             //do nothing
-//         }
-//         //next stage of game, choose option, move on
-//         else {
-//             for(let i = 0; i < numLinks; i++) {
-//                 if(i === numLinks-1){
-//                     g.mark(v);
-//                 }
-//                 //check if vertex of link exist
-//                 var keys = g.E.keys();
-//                 var newLink = true;
-//                 for (let k of keys) {
-//                     //add edge
-//                     if (k === links[i].text) {
-//                         g.addEdge(v, k);
-//                         newLink = false;
-//                         break;
-//                     }
-//                 }
-//                 if (newLink) {
-//                     //create vertex and add edge
-//                     g.addVertex(links[i].text);
-//                     g.addEdge(v, links[i].text);
-//                 }
-//
-//
-//                 $.get("http://localhost:3000/click/" + i, function () {
-//                     // console.log(links[i].text);
-//                     play(links[0].text, links[i].text);
-//                     $.get("http://localhost:3000/undo");
-//                     console.log("Play");
-//                 });
-//             }
-//         }
-//     })
-// }
-//
-// g.printGraph();
+function play(pre, v) {
+    $.getJSON("http://localhost:3000/links", function (data) {
+        var links = data.links;
+        var numLinks = data.links.length;
+
+        //end of game
+        if (numLinks === 0) {
+            g.mark(v);
+        }
+        else if(g.M.get(v)){
+            //do nothing
+        }
+        //next stage of game, choose option, move on
+        else {
+            for(let i = 0; i < numLinks; i++) {
+                if(i === numLinks-1){
+                    g.mark(v);
+                }
+                //check if vertex of link exist
+                var keys = g.E.keys();
+                var newLink = true;
+                for (let k of keys) {
+                    //add edge
+                    if (k === links[i].text) {
+                        g.addEdge(v, k);
+                        newLink = false;
+                        break;
+                    }
+                }
+                if (newLink) {
+                    //create vertex and add edge
+                    g.addVertex(links[i].text);
+                    g.addEdge(v, links[i].text);
+                }
+
+
+                $.get("http://localhost:3000/click/" + i, function () {
+                    // console.log(links[i].text);
+                    play(links[0].text, links[i].text);
+                    $.get("http://localhost:3000/undo");
+                    console.log("Play");
+                });
+            }
+        }
+    })
+}
+
+g.printGraph();
