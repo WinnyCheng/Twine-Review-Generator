@@ -24,10 +24,8 @@ class Graph {
     // updates Edges and Marked
     addVertex(text){
         this.V = this.V + 1;
-        // todo add function to get children
         let children = this.getChildren(text);
-        console.log(children);
-
+        // console.log(children);
         this.E.set(text, children);
         this.M.set(text, false);
     }
@@ -89,37 +87,53 @@ class Graph {
             for(var j of val){
                 str += j + " ";
             }
-            console.log(i + " -> " + str);
+            // console.log(i + " -> " + str);
+            console.log(i);
         }
+        console.log("my Vertex are: " + g.V);
+        console.log("length of keys are: " + g.E.size);
     }
 }
-
-
-
-
-
-var url = "http://localhost:3000/links";
-
-var g = new Graph();
-// g.addVertex("Beginning");
-
-// play(" ", "Beginning");
-
-//
-$.getJSON("http://localhost:3000/text", function (data) {
-    // do something
-    // console.log(data['text']);
-    g.addVertex(data['text']);
-});
-
-g.printGraph();
-
 
 // INPUT:
 // RETURNS:
 function play(text) {
-    
+    console.log('starting to play');
+    let children = g.E.get(text);
+
+    // iterate the children of current vertex/text
+    children.forEach(function (child) {
+        // check if children is in hashmap
+        if (g.E.has(child)){
+            // dont do anything
+            // continue;
+            // console.log("yes its inside");
+            // return;
+        }
+        else{
+            // add child to graph
+            g.addVertex(child);
+            play(child);
+        }
+    });
+    g.mark(text);
 }
+
+
+var url = "http://localhost:3000/links";
+var g = new Graph();
+
+$.getJSON("http://localhost:3000/reset");
+
+// Add starting vertex to graph
+$.getJSON("http://localhost:3000/text", function (data) {
+    // do something
+    // console.log(data['text']);
+    g.addVertex(data['text']);
+    play(data['text']);
+});
+
+g.printGraph();
 
 
 
@@ -159,7 +173,6 @@ function play(text) {
 //                     g.addEdge(v, links[i].text);
 //                 }
 //
-//
 //                 $.get("http://localhost:3000/click/" + i, function () {
 //                     // console.log(links[i].text);
 //                     play(links[0].text, links[i].text);
@@ -170,5 +183,5 @@ function play(text) {
 //         }
 //     })
 // }
-//
+
 // g.printGraph();
