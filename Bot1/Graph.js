@@ -1,8 +1,12 @@
 /* Todo:
 - Finish implementing Text array
 - Implement function that translates from text into ID
+- Adjust the print graph function
+- Test with different novels
 
-- Adjust the make graph algorithm 
+Bugs:
+- It doesn't go into recursion
+
 */
 
 $.ajaxSetup({
@@ -159,7 +163,6 @@ $.getJSON("http://localhost:3000/text", function (data) {
     g.printGraph();
     // setTimeout(g.printGraph,10000);
 });
-
 
 
 
