@@ -78,6 +78,7 @@ class Graph {
     }
 
     // todo edit print Graph to accomodate for E being an array now
+    // todo print Marked array
     printGraph(){
         console.log("I will start printing the graph")
         var keys = this.E.keys();
@@ -92,6 +93,7 @@ class Graph {
         }
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
+        console.log(g.M);
     }
 }
 
@@ -101,21 +103,44 @@ function play(text) {
     console.log('starting to play');
     let children = g.E.get(text);
 
-    // iterate the children of current vertex/text
-    children.forEach(function (child) {
-        // check if children is in hashmap
-        if (g.E.has(child)){
-            // dont do anything
-            // continue;
-            // console.log("yes its inside");
-            // return;
-        }
-        else{
-            // add child to graph
-            g.addVertex(child);
-            play(child);
+    // Iterate through each of the links/children of the current vertex/text
+    $.getJSON("http://localhost:3000/links", function (data) {
+        let numLinks = data['links'].length;
+
+        for(let i = 0; i < numLinks; i++) {
+            // check if children is in hashmap
+            if (g.E.has(children[i])){
+                // dont do anything
+                console.log("The children is here already")
+            }
+            else{
+                // add child to graph
+                g.addVertex(children[i]);
+                $.get("http://localhost:3000/click/" + i, function () {
+                    play(children[i]);
+                    $.get("http://localhost:3000/undo");
+                });
+            }
         }
     });
+
+    // // iterate the children of current vertex/text
+    // children.forEach(function (child) {
+    //     // check if children is in hashmap
+    //     if (g.E.has(child)){
+    //         // dont do anything
+    //         // continue;
+    //         // console.log("yes its inside");
+    //         return;
+    //     }
+    //     else{
+    //         // add child to graph
+    //         g.addVertex(child);
+    //         // todo click and undo; to implement this possibly change the forEach to a normal
+    //         // todo loop
+    //         play(child);
+    //     }
+    // });
     g.mark(text);
 }
 
@@ -131,9 +156,10 @@ $.getJSON("http://localhost:3000/text", function (data) {
     // console.log(data['text']);
     g.addVertex(data['text']);
     play(data['text']);
+    g.printGraph();
+    // setTimeout(g.printGraph,10000);
 });
 
-g.printGraph();
 
 
 
