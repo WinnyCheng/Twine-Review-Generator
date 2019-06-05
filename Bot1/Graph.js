@@ -6,6 +6,7 @@
 
 Bugs:
 - It doesn't go into recursion
+- Debug why D is not being added into the shit
 
 */
 
@@ -92,8 +93,8 @@ class Graph {
             for(var j of val){
                 str += j + " ";
             }
-            // console.log(i + " -> " + str);
-            console.log(i);
+            console.log(i + " -> " + str);
+            // console.log(i);
         }
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
@@ -119,8 +120,8 @@ function play(text) {
             }
             else{
                 // add child to graph
-                g.addVertex(children[i]);
                 $.get("http://localhost:3000/click/" + i, function () {
+                    g.addVertex(children[i]);
                     play(children[i]);
                     $.get("http://localhost:3000/undo");
                 });
@@ -160,9 +161,10 @@ $.getJSON("http://localhost:3000/text", function (data) {
     // console.log(data['text']);
     g.addVertex(data['text']);
     play(data['text']);
-    g.printGraph();
     // setTimeout(g.printGraph,10000);
 });
+
+g.printGraph();
 
 
 
