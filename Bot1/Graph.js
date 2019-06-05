@@ -71,7 +71,7 @@ class Graph {
                     $.get("http://localhost:3000/text", function (text) {
                         // console.log("the text is:");
                         // console.log(text['text']);
-                        children.push(text['text']);
+                        children.push(text['text'].replace(/↶\n|↷\n/g, ""));
                     });
                     $.get("http://localhost:3000/undo");
                 });
@@ -114,9 +114,10 @@ function play(text) {
 
         for(let i = 0; i < numLinks; i++) {
             // check if children is in hashmap
-            if (g.E.has(children[i])){
+            if (g.E.has(children[i])){   // maybe add replace if doesnt work
                 // dont do anything
-                console.log("The children is here already")
+                console.log("The children is here already");
+                continue;
             }
             else{
                 // add child to graph
@@ -159,14 +160,18 @@ $.getJSON("http://localhost:3000/reset");
 $.getJSON("http://localhost:3000/text", function (data) {
     // do something
     // console.log(data['text']);
-    g.addVertex(data['text']);
-    play(data['text']);
+    g.addVertex(data['text'].replace(/↶\n|↷\n/g, ""));
+    play(data['text'].replace(/↶\n|↷\n/g, ""));
     // setTimeout(g.printGraph,10000);
 });
 
 g.printGraph();
 
-
+// Testing strings
+// "↶\n\nB\n\n1. C \n2. E \n"
+// "↷\n\nA\n\n1. B \n2. F \n3. G \n"
+// "↶\n↷\n\nB\n\n1. C \n2. E \n"
+// .replace(/↶\n|↷\n/g, "");
 
 
 // function play(pre, v) {
