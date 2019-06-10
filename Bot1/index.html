@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Bot 1</title>
+    <link rel="stylesheet" href="Graph.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.7.0/cytoscape.umd.js"></script>
 </head>
+
 <body>
-    <script src="script.js"></script>
     <p id="average"></p>
     <p id="max"></p>
     <p id="min"></p>
-    <body onload="drawGraph();">
-    <canvas id="circle" width="150" height="150"></canvas>
+    <div id="cy"></div>
+    <script src="Graph.js"></script>
 </body>
+
 </html>

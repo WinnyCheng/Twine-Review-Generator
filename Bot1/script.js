@@ -1,4 +1,3 @@
-
 var url = "http://localhost:3000/links";
 
 //Recursion - continuously getJSON till it changes
