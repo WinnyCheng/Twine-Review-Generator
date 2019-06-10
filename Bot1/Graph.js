@@ -71,7 +71,7 @@ class Graph {
                     $.get("http://localhost:3000/text", function (text) {
                         // console.log("the text is:");
                         // console.log(text['text']);
-                        children.push(text['text']);
+                        children.push(text['text'].replace(/↶\n|↷\n/g, ""));
                     });
                     $.get("http://localhost:3000/undo");
                 });
@@ -159,8 +159,8 @@ $.getJSON("http://localhost:3000/reset");
 $.getJSON("http://localhost:3000/text", function (data) {
     // do something
     // console.log(data['text']);
-    g.addVertex(data['text']);
-    play(data['text']);
+    g.addVertex(data['text'].replace(/↶\n|↷\n/g, ""));
+    play(data['text'].replace(/↶\n|↷\n/g, ""));
     // setTimeout(g.printGraph,10000);
 });
 
