@@ -114,9 +114,10 @@ function play(text) {
 
         for(let i = 0; i < numLinks; i++) {
             // check if children is in hashmap
-            if (g.E.has(children[i])){
+            if (g.E.has(children[i])){   // maybe add replace if doesnt work
                 // dont do anything
-                console.log("The children is here already")
+                console.log("The children is here already");
+                continue;
             }
             else{
                 // add child to graph
@@ -166,7 +167,11 @@ $.getJSON("http://localhost:3000/text", function (data) {
 
 g.printGraph();
 
-
+// Testing strings
+// "↶\n\nB\n\n1. C \n2. E \n"
+// "↷\n\nA\n\n1. B \n2. F \n3. G \n"
+// "↶\n↷\n\nB\n\n1. C \n2. E \n"
+// .replace(/↶\n|↷\n/g, "");
 
 
 // function play(pre, v) {
