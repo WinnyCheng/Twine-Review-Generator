@@ -23,8 +23,10 @@ class Graph {
         this.V = 0;
        // this.s = [];
         this.E = new Map(); // Vertex number -> children
+        // children = object{ text , index }
         this.Text = [];
         this.M = new Map();
+        this.containsCyclingLink = false;
     }
 
     // Give the text paragraph of a section, and make a vertex in the graph
@@ -37,6 +39,7 @@ class Graph {
         this.E.set(text, children);
         this.M.set(text, false);
     }
+
     addEdge(v, w){
         this.E.get(v).push(w);
     }
@@ -61,6 +64,7 @@ class Graph {
     getChildren(text){
         let children = [];
         let links = [];
+        var containsCyclingLink = false
 
         $.getJSON("http://localhost:3000/links", function (data) {
             // console.log("My links are: ");
@@ -69,19 +73,46 @@ class Graph {
             let numLinks = data['links'].length;
             // console.log(numLinks);
 
+            // todo im assuming there wont be an error with the index and the link,
+            // they are corresponding of each other.
+
+            // todo array containing all the cycling links in the html vertix
+            var cyclingLinks = isCyc();
+
             for(let i = 0; i < numLinks; i++) {
-                $.get("http://localhost:3000/click/" + i, function () {
-                    $.get("http://localhost:3000/text", function (text) {
-                        // console.log("the text is:");
-                        // console.log(text['text']);
-                        children.push(text['text'].replace(/↶\n|↷\n/g, ""));
+
+                // check if link is a cycling link, if yes don't click on it
+                // else continue normal logic and click on it
+                if (cyclingLinks.includes(links[i]['text'])){
+                // if (true){
+                    // todo check that is giving the right string
+                    console.log(links[i]['text']);
+                    containsCyclingLink = true;
+                    // this.setCyclingLink();
+                    // dont do anything
+                }else{
+                    // this is not a cycling link
+                    $.get("http://localhost:3000/click/" + i, function () {
+                        $.get("http://localhost:3000/text", function (text) {
+                            // console.log("the text is:");
+                            // console.log(text['text']);
+                            let child = {
+                                text : text['text'].replace(/↶\n|↷\n/g, ""),
+                                index: i
+                            };
+                            children.push(child);
+
+                        });
+                        $.get("http://localhost:3000/undo");
                     });
-                    $.get("http://localhost:3000/undo");
-                });
+                }
             }
         });
         // console.log("my children are: ")
         // console.log(children);
+        if (containsCyclingLink){
+            this.containsCyclingLink = true;
+        }
         return children;
     }
 
@@ -110,7 +141,7 @@ class Graph {
             var val = this.E.get(i);
             var str = "";
             for(var j of val){
-                str += j + " ";
+                str += j['text'] + " ";
             }
             console.log(i + " -> " + str);
             // console.log(i);
@@ -129,44 +160,43 @@ function play(text) {
 
     // Iterate through each of the links/children of the current vertex/text
     $.getJSON("http://localhost:3000/links", function (data) {
-        let numLinks = data['links'].length;
+        // let numLinks = data['links'].length;
 
-        for(let i = 0; i < numLinks; i++) {
+        for(let i = 0; i < children.length; i++) {
             // check if children is in hashmap
-            if (g.E.has(children[i])){   // maybe add replace if doesnt work
+            if (g.E.has(children[i]['text'])){   // maybe add replace if doesnt work
                 // dont do anything
                 console.log("The children is here already");
-                continue;
             }
             else{
                 // add child to graph
-                $.get("http://localhost:3000/click/" + i, function () {
-                    g.addVertex(children[i]);
-                    play(children[i]);
+                $.get("http://localhost:3000/click/" + children[i]['index'], function () {
+                    g.addVertex(children[i]['text']);
+                    play(children[i]['text']);
                     $.get("http://localhost:3000/undo");
                 });
             }
         }
     });
-
-    // // iterate the children of current vertex/text
-    // children.forEach(function (child) {
-    //     // check if children is in hashmap
-    //     if (g.E.has(child)){
-    //         // dont do anything
-    //         // continue;
-    //         // console.log("yes its inside");
-    //         return;
-    //     }
-    //     else{
-    //         // add child to graph
-    //         g.addVertex(child);
-    //         // todo click and undo; to implement this possibly change the forEach to a normal
-    //         // todo loop
-    //         play(child);
-    //     }
-    // });
     g.mark(text);
+}
+
+function isCyc(){
+    var hasCyc = [];
+    $.getJSON("http://localhost:3000/html", function(data){
+        var str = data.html;
+        while(str.length > 0 && str.includes("cycling-link")) {
+            str = str.substring(str.indexOf("cycling-link"));
+            var link = str.split(">", 3)[2];
+            link = link.substring(0, link.indexOf("<"));
+
+            // console.log(link);
+            hasCyc.push(link);
+            str = str.substring(str.indexOf(link));
+            // console.log(str);
+        }
+    });
+    return hasCyc;
 }
 
 
@@ -218,52 +248,3 @@ g.printGraph();
 // "↷\n\nA\n\n1. B \n2. F \n3. G \n"
 // "↶\n↷\n\nB\n\n1. C \n2. E \n"
 // .replace(/↶\n|↷\n/g, "");
-
-
-// function play(pre, v) {
-//     $.getJSON("http://localhost:3000/links", function (data) {
-//         var links = data.links;
-//         var numLinks = data.links.length;
-//
-//         //end of game
-//         if (numLinks === 0) {
-//             g.mark(v);
-//         }
-//         else if(g.M.get(v)){
-//             //do nothing
-//         }
-//         //next stage of game, choose option, move on
-//         else {
-//             for(let i = 0; i < numLinks; i++) {
-//                 if(i === numLinks-1){
-//                     g.mark(v);
-//                 }
-//                 //check if vertex of link exist
-//                 var keys = g.E.keys();
-//                 var newLink = true;
-//                 for (let k of keys) {
-//                     //add edge
-//                     if (k === links[i].text) {
-//                         g.addEdge(v, k);
-//                         newLink = false;
-//                         break;
-//                     }
-//                 }
-//                 if (newLink) {
-//                     //create vertex and add edge
-//                     g.addVertex(links[i].text);
-//                     g.addEdge(v, links[i].text);
-//                 }
-//
-//                 $.get("http://localhost:3000/click/" + i, function () {
-//                     // console.log(links[i].text);
-//                     play(links[0].text, links[i].text);
-//                     $.get("http://localhost:3000/undo");
-//                     console.log("Play");
-//                 });
-//             }
-//         }
-//     })
-// }
-
-// g.printGraph();
