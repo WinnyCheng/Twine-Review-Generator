@@ -13,7 +13,7 @@ $.ajaxSetup({
     async: false
 });
 
-var a = [];
+let a = [];
 
 // creates graph and then multiple play through will be from graph
 
@@ -21,6 +21,7 @@ var a = [];
 class Graph {
     constructor(){
         this.V = 0;
+       // this.s = [];
         this.E = new Map(); // Vertex number -> children
         this.Text = [];
         this.M = new Map();
@@ -30,6 +31,7 @@ class Graph {
     // updates Edges and Marked
     addVertex(text){
         this.V = this.V + 1;
+       // this.s.push(this.V + 1);
         let children = this.getChildren(text);
         // console.log(children);
         this.E.set(text, children);
@@ -83,9 +85,25 @@ class Graph {
         return children;
     }
 
+    saveGraph(){
+        var otherKeys = this.E.keys();
+        for(var d of otherKeys){
+            var value = this.E.get(d);
+            var dTrimmed = d.split(' ').slice(0,3).join(' ') + '...';
+            var Str = "";
+            for(var e of value){
+                Str += e + " ";
+            }
+            var StrTrimmed = Str.split(' ').slice(0,3).join(' ') + '...';
+            a.push({data: {id: dTrimmed, name: dTrimmed}});
+            a.push({data: {id: StrTrimmed, name: StrTrimmed}});
+            a.push({data: {source: dTrimmed, target: StrTrimmed}});
+        }
+    }
+
     // todo edit print Graph to accomodate for E being an array now
     // todo print Marked array
-    printGraph(){
+    printGraph() {
         console.log("I will start printing the graph")
         var keys = this.E.keys();
         for(var i of keys){
@@ -96,9 +114,6 @@ class Graph {
             }
             console.log(i + " -> " + str);
             // console.log(i);
-            a.push({data: { id: i, name: i }});
-            a.push({data: { id: str, name: str}});
-            a.push({data: { source: i, target: str} });
         }
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
@@ -168,6 +183,8 @@ $.getJSON("http://localhost:3000/text", function (data) {
     play(data['text'].replace(/↶\n|↷\n/g, ""));
     // setTimeout(g.printGraph,10000);
 });
+
+g.saveGraph();
 
 var cy = window.cy = cytoscape({
     container: document.getElementById('cy'),
