@@ -81,7 +81,7 @@ class Graph {
                 console.log(cyclingLinks);
                 // check if link is a cycling link, if yes don't click on it
                 // else continue normal logic and click on it
-                console.links[i];
+                console.log(links[i]);
                 if (cyclingLinks.includes(links[i])){
                 // if (true){
                     // todo check that is giving the right string
