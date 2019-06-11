@@ -121,7 +121,6 @@ function play(text) {
             if (g.E.has(children[i])){   // maybe add replace if doesnt work
                 // dont do anything
                 console.log("The children is here already");
-                continue;
             }
             else{
                 // add child to graph
@@ -153,6 +152,27 @@ function play(text) {
     // });
     g.mark(text);
 }
+
+function isCyc(){
+    var hasCyc = [];
+    $.getJSON("http://localhost:3000/html", function(data){
+        var str = data.html;
+        while(str.length > 0 && str.includes("cycling-link")) {
+            str = str.substring(str.indexOf("cycling-link"));
+            var link = str.split(">", 3)[2];
+            link = link.substring(0, link.indexOf("<"));
+
+            // console.log(link);
+            hasCyc.push(link);
+            str = str.substring(str.indexOf(link));
+            // console.log(str);
+        }
+    });
+    return hasCyc;
+}
+
+//testing isCyc
+console.log("Cyc: " + isCyc());
 
 
 var url = "http://localhost:3000/links";
