@@ -22,7 +22,7 @@ class Graph {
     constructor(){
         this.V = 0;
         this.E = new Map(); // Vertex number -> children
-        // children = object{ text , index }
+        // children = object{ text , clickIndex, nameID }
         this.Text = [];
         this.M = new Map();
         this.containsCyclingLink = false;
@@ -45,43 +45,28 @@ class Graph {
         this.M.set(v, true);
     }
 
-    addText(text){
-        this.Text.push(text);
-    }
-
-    // iterate through the Text array and return the index where that matches the input text
-    // if not found returns -1
-    getIndex(text){
-        return this.Text.indexOf(text);
-    }
-
     // todo this should be a function of the node ***
-    // INPUT: text from Twine novel node
-    // RETURN: Array with the children text of the current node
-    // it also clicks and returns in order to stay in the same node
-    getChildren(text){
+    // INPUT: passage nameID from a specific passage in the novel
+    // RETURN: Array of objects. Each object represents a child of the parent.
+    // Each child object contains text, nameID and clickIndex.
+    getChildren(nameID){
         let children = [];
         let links = [];
-        var containsCyclingLink = false
+        var containsCyclingLink = false;
 
         $.getJSON("http://localhost:3000/links", function (data) {
-            // console.log("My links are: ");
-            // console.log(data);
             links = data['links'];
             let numLinks = data['links'].length;
-            // console.log(numLinks);
 
-            // todo im assuming there wont be an error with the index and the link,
-            // they are corresponding of each other.
-
-            // todo array containing all the cycling links in the html vertix
+            // array containing all the cycling links in the html vertix
             var cyclingLinks = isCyc();
+            // array containing all the children IDs from the current passage
+            var childrenIDs = getChildrenIDs();
 
             for(let i = 0; i < numLinks; i++) {
-
                 // check if link is a cycling link, if yes don't click on it
                 // else continue normal logic and click on it
-                if (cyclingLinks.includes(links[i]['text'])){
+                if (cyclingLinks.includes(links[i]['text'])){ // todo change to nameID
                 // if (true){
                     // todo check that is giving the right string
                     console.log(links[i]['text']);
@@ -92,13 +77,15 @@ class Graph {
                     // this is not a cycling link
                     $.get("http://localhost:3000/click/" + i, function () {
                         $.get("http://localhost:3000/text", function (text) {
+                            // text is text response
                             // console.log("the text is:");
                             // console.log(text['text']);
                             let child = {
                                 text : text['text'].replace(/↶\n|↷\n/g, ""),
-                                index: i
+                                clickIndex: i,
+                                nameID: childrenIDs[i] // todo how to know where to index
                             };
-                            children.push(child);
+                            children.push(child);   // debug here
 
                         });
                         $.get("http://localhost:3000/undo");
@@ -133,15 +120,15 @@ class Graph {
         }
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
-        console.log(g.M);
+        // console.log(g.M);
     }
 }
 
-// INPUT:
+// INPUT: string nameID which represents the passage-name of each passage.
 // RETURNS:
-function play(text) {
+function play(nameID) {
     console.log('starting to play');
-    let children = g.E.get(text);
+    let children = g.E.get(nameID);
 
     // Iterate through each of the links/children of the current vertex/text
     $.getJSON("http://localhost:3000/links", function (data) {
@@ -149,24 +136,25 @@ function play(text) {
 
         for(let i = 0; i < children.length; i++) {
             // check if children is in hashmap
-            if (g.E.has(children[i]['text'])){   // maybe add replace if doesnt work
+            if (g.E.has(children[i]['nameID'])){   // todo this was replaced by nameID
                 // dont do anything
                 console.log("The children is here already");
             }
             else{
                 // add child to graph
-                $.get("http://localhost:3000/click/" + children[i]['index'], function () {
-                    g.addVertex(children[i]['text']);
-                    play(children[i]['text']);
+                $.get("http://localhost:3000/click/" + children[i]['clickIndex'], function () {
+                    g.addVertex(children[i]['nameID']);
+                    play(children[i]['nameID']);
                     $.get("http://localhost:3000/undo");
                 });
             }
         }
     });
-    g.mark(text);
+    g.mark(nameID);
 }
 
-//returns the names of the links that are cycling links
+// todo change the name of the function
+//RETURN: an array with the names of the links that are cycling links
 function isCyc(){
     var hasCyc = [];
     $.getJSON("http://localhost:3000/html", function(data){
@@ -183,7 +171,8 @@ function isCyc(){
     return hasCyc;
 }
 
-function passNames(){
+// RETURN: an array with the passage-names of the links in the current passage
+function getChildrenIDs(){
     var names = [];
     $.getJSON("http://localhost:3000/html", function(data){
         var str = data.html;
@@ -200,7 +189,6 @@ function passNames(){
 
 var url = "http://localhost:3000/links";
 var g = new Graph();
-
 $.getJSON("http://localhost:3000/reset");
 
 // Add starting vertex to graph
@@ -236,7 +224,6 @@ var cy = window.cy = cytoscape({
     ],
     elements: a
 });
-
 g.printGraph();
 
 // Testing strings
