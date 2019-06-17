@@ -66,9 +66,7 @@ class Graph {
             for(let i = 0; i < numLinks; i++) {
                 // check if link is a cycling link, if yes don't click on it
                 // else continue normal logic and click on it
-                if (cyclingLinks.includes(links[i]['text'])){ // todo change to nameID
-                // if (true){
-                    // todo check that is giving the right string
+                if (cyclingLinks.includes(links[i]['text'])){
                     console.log(links[i]['text']);
                     containsCyclingLink = true;
                     // this.setCyclingLink();
