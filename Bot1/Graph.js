@@ -166,6 +166,7 @@ function play(text) {
     g.mark(text);
 }
 
+//returns the names of the links that are cycling links
 function isCyc(){
     var hasCyc = [];
     $.getJSON("http://localhost:3000/html", function(data){
@@ -175,15 +176,27 @@ function isCyc(){
             var link = str.split(">", 3)[2];
             link = link.substring(0, link.indexOf("<"));
 
-            // console.log(link);
             hasCyc.push(link);
             str = str.substring(str.indexOf(link));
-            // console.log(str);
         }
     });
     return hasCyc;
 }
 
+function passNames(){
+    var names = [];
+    $.getJSON("http://localhost:3000/html", function(data){
+        var str = data.html;
+        while(str.length > 0 && str.includes("passage-name")) {
+            str = str.substring(str.indexOf("passage-name"));
+            var link = str.split("\"", 2)[1];
+
+            names.push(link);
+            str = str.substring(str.indexOf(link));
+        }
+    });
+    return names;
+}
 
 var url = "http://localhost:3000/links";
 var g = new Graph();
