@@ -14,6 +14,16 @@ $.ajaxSetup({
 });
 
 let a = [];
+let b = "digraph { }";
+
+// custom function for string manipulation
+String.prototype.insert = function (index, string) {
+    if (index > 0)
+        return this.substring(0, index) + string + this.substring(index, this.length);
+
+    return string + this;
+};
+
 
 // creates graph and then multiple play through will be from graph
 
@@ -139,11 +149,24 @@ class Graph {
         var keys = this.E.keys();
         for(var i of keys){
             var val = this.E.get(i);
+            // var iTrimmed = i.split(' ').slice(0,3).join(' ');
+            // var newI = iTrimmed.replace(/ /g, "_");
+            // var sI = newI.replace(/,/g, "");
+            // var aI = sI.replace(/"/g, "");
+            // var bI = aI.replace(/“/g, "");
+            // var fI = bI.replace(/'/g, "");
             var str = "";
             for(var j of val){
                 str += j['text'] + " ";
             }
+            // var strTrimmed = str.split(' ').slice(0,3).join(' ');
+            // var newStr = strTrimmed.replace(/ /g, "_");
+            // var sStr = newStr.replace(/,/g, "");
+            // var aStr = sStr.replace(/“/g, "");
+            // var bStr = aStr.replace(/"/g, "");
+            // var fStr = bStr.replace(/'/g, "");
             console.log(i + " -> " + str);
+            b = b.insert(b.length - 2, " " + fI + " -> " + fStr);
             // console.log(i);
         }
         console.log("my Vertex are: " + g.V);
@@ -214,34 +237,49 @@ $.getJSON("http://localhost:3000/text", function (data) {
     // setTimeout(g.printGraph,10000);
 });
 
-g.saveGraph();
-
-var cy = window.cy = cytoscape({
-    container: document.getElementById('cy'),
-    layout: {
-        name: 'grid',
-        rows: 2,
-        cols: 2
-    },
-    style: [
-        {
-            selector: 'node[name]',
-            style: {
-                'content': 'data(name)'
-            }
-        },
-        {
-            selector: 'edge',
-            style: {
-                'curve-style': 'bezier',
-                'target-arrow-shape': 'triangle'
-            }
-        }
-    ],
-    elements: a
-});
+// g.saveGraph();
+//
+// var cy = window.cy = cytoscape({
+//     container: document.getElementById('cy'),
+//     layout: {
+//         name: 'grid',
+//         rows: 2,
+//         cols: 2
+//     },
+//     style: [
+//         {
+//             selector: 'node[name]',
+//             style: {
+//                 'content': 'data(name)'
+//             }
+//         },
+//         {
+//             selector: 'edge',
+//             style: {
+//                 'curve-style': 'bezier',
+//                 'target-arrow-shape': 'triangle'
+//             }
+//         }
+//     ],
+//     elements: a
+// });
 
 g.printGraph();
+
+console.log(b);
+var viz = new Viz();
+
+viz.renderSVGElement(b)
+    .then(function(element) {
+        document.body.appendChild(element);
+    })
+    .catch(error => {
+        // Create a new Viz instance (@see Caveats page for more info)
+        viz = new Viz();
+
+        // Possibly display the error
+        //console.error(error);
+    });
 
 // Testing strings
 // "↶\n\nB\n\n1. C \n2. E \n"
