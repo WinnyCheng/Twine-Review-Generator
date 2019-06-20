@@ -19,8 +19,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="190" lean-forward="true" selection-start-line="190" selection-end-line="190" />
+            <state relative-caret-position="1683">
+              <caret line="167" column="38" lean-forward="true" selection-start-line="167" selection-start-column="38" selection-end-line="167" selection-end-column="38" />
+              <folding>
+                <element signature="e#1#247#0" />
+                <element signature="e#261#281#0" />
+                <element signature="e#1338#1355#0" />
+                <element signature="e#1697#1746#0" />
+                <element signature="e#5509#5543#0" />
+                <element signature="e#6075#6114#0" />
+                <element signature="e#6709#6790#0" />
+                <element signature="n#!!block;n#getChildrenIDs#0" />
+                <element signature="e#9093#9124#0" />
+                <element signature="e#9474#9942#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -47,6 +59,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>contin</find>
+      <find>getChildren</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -94,7 +107,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Twine_Games/Test.html" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Twine_Games/index.html" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -154,7 +167,10 @@
       <workItem from="1559225803708" duration="987000" />
       <workItem from="1560184540940" duration="2959000" />
       <workItem from="1560199967132" duration="131000" />
-      <workItem from="1560258987731" duration="4460000" />
+      <workItem from="1560258987731" duration="8051000" />
+      <workItem from="1560797539159" duration="3395000" />
+      <workItem from="1560956390382" duration="8131000" />
+      <workItem from="1561054583543" duration="6448000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -268,17 +284,31 @@
       <option name="project" value="LOCAL" />
       <updated>1560198864942</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="function that get all cycling links + oo.html for testing">
+      <created>1560264170824</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1560264170824</updated>
+    </task>
+    <task id="LOCAL-00018" summary="passage-name parser">
+      <created>1560800063543</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1560800063544</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83614000" />
+    <option name="totallyTimeSpent" value="105179000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23076923" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.23076923" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -334,18 +364,11 @@
     <MESSAGE value="Graph" />
     <MESSAGE value="Makes graph but incorrect" />
     <MESSAGE value="Latest version for Graph.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Latest version for Graph.js" />
+    <MESSAGE value="function that get all cycling links + oo.html for testing" />
+    <MESSAGE value="passage-name parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="passage-name parser" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/Graph.js</url>
-          <line>112</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="JavascriptDebugType">
         <watch expression="children[&quot;1&quot;]" />
@@ -397,6 +420,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../Twine_Games/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1632">
+          <caret line="96" column="69" lean-forward="true" selection-start-line="96" selection-start-column="69" selection-end-line="96" selection-end-column="69" />
+          <folding>
+            <element signature="n#style#0;n#tw-colour#0;n#!!top" expanded="true" />
+            <element signature="e#89#95#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -406,8 +440,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Graph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="190" lean-forward="true" selection-start-line="190" selection-end-line="190" />
+        <state relative-caret-position="1683">
+          <caret line="167" column="38" lean-forward="true" selection-start-line="167" selection-start-column="38" selection-end-line="167" selection-end-column="38" />
+          <folding>
+            <element signature="e#1#247#0" />
+            <element signature="e#261#281#0" />
+            <element signature="e#1338#1355#0" />
+            <element signature="e#1697#1746#0" />
+            <element signature="e#5509#5543#0" />
+            <element signature="e#6075#6114#0" />
+            <element signature="e#6709#6790#0" />
+            <element signature="n#!!block;n#getChildrenIDs#0" />
+            <element signature="e#9093#9124#0" />
+            <element signature="e#9474#9942#0" />
+          </folding>
         </state>
       </provider>
     </entry>
