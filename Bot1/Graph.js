@@ -13,7 +13,16 @@ $.ajaxSetup({
     async: false
 });
 
-var a = [];
+// to insert a string inside a string
+String.prototype.insert = function (index, string) {
+    if (index > 0)
+        return this.substring(0, index) + string + this.substring(index, this.length);
+
+    return string + this;
+};
+
+// graph template for viz.js
+let graph = "digraph { }";
 
 // creates graph and then multiple play through will be from graph
 
@@ -131,12 +140,19 @@ class Graph {
                 str += this.E.get(j)['numID'] + " ";
                 // str += j + " ";
             }
-            console.log(this.E.get(i)['numID'] + " -> " + str);
-            // console.log(i + " -> " + str);
-            // console.log(i);
-            a.push({data: { id: i, name: i }});
-            a.push({data: { id: str, name: str}});
-            a.push({data: { source: i, target: str} });
+
+            var children = str.split(" ");
+            children.pop();
+
+            if(str !== "" && children.length !== 0) {
+                console.log(this.E.get(i)['numID'] + " -> " + str);
+                console.log(this.E.get(i)['numID'] + " -> " + children);
+                console.log(children.length);
+                for(let k = 0; k < children.length; k++) {
+                    graph = graph.insert(graph.length - 2, " " + this.E.get(i)['numID'] + " -> " + children[k]);
+                }
+
+            }
         }
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
@@ -255,28 +271,19 @@ $.getJSON("http://localhost:3000/reset");
 g.addVertex("Start");
 play("Start");
 
-var cy = window.cy = cytoscape({
-    container: document.getElementById('cy'),
-    layout: {
-        name: 'grid',
-        rows: 2,
-        cols: 2
-    },
-    style: [
-        {
-            selector: 'node[name]',
-            style: {
-                'content': 'data(name)'
-            }
-        },
-        {
-            selector: 'edge',
-            style: {
-                'curve-style': 'bezier',
-                'target-arrow-shape': 'triangle'
-            }
-        }
-    ],
-    elements: a
-});
 g.printGraph();
+console.log(graph);
+
+// draw the graph on page
+var viz = new Viz();
+viz.renderSVGElement(graph)
+    .then(function(element) {
+        document.body.appendChild(element);
+    })
+    .catch(error => {
+        // Create a new Viz instance (@see Caveats page for more info)
+        viz = new Viz();
+
+        // Possibly display the error
+        //console.error(error);
+    });
