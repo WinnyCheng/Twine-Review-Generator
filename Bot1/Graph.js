@@ -21,7 +21,7 @@ var a = [];
 class Graph {
     constructor(){
         this.V = 0;
-        this.E = new Map(); // Vertex number -> children
+        this.E = new Map(); // Vertex nameID -> obj [string text, int vertexNum, array of nameID children]
         // children = object{ text , clickIndex, nameID }
         this.Text = [];
         this.M = new Map();
@@ -169,21 +169,53 @@ function isCyc(){
     return hasCyc;
 }
 
-// RETURN: an array with the passage-names of the links in the current passage
+// RETURN: an array of objects containing the children IDs of the current passage
+// each object is in the format [nameID: string, linkType: string]
+// This array contains all the links of the current passage. The field "linkType" describes if the link is a link-goto, cycling-Link or goto-link
 function getChildrenIDs(){
-    var names = [];
+    var links = [];
     $.getJSON("http://localhost:3000/html", function(data){
         var str = data.html;
-        while(str.length > 0 && str.includes("passage-name")) {
-            str = str.substring(str.indexOf("passage-name"));
-            var link = str.split("\"", 2)[1];
+        let ID = "???";
+        while(str.length > 0 && str.includes("<tw-expression")) {
+            str = str.substring(str.indexOf("<tw-expression"));
+            let twExpression = str.substring(str.indexOf("<tw-expression") , str.indexOf(">"));
+            let expressionName = twExpression.substring(str.indexOf("name"));
+            let expressionType = expressionName.split("\"", 2)[1];
 
-            names.push(link);
-            str = str.substring(str.indexOf(link));
+            if (expressionType === "cycling-link"){
+                str = str.substring(str.indexOf("tw-link"));
+                ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
+            }else if (expressionType === "link"){
+                str = str.substring(str.indexOf("tw-link"));
+                ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
+            }else if (expressionType === "link-goto"){
+                str = str.substring(str.indexOf("link-goto"));
+                str = str.substring(str.indexOf("tw-link"));
+                let twLinkInfo = str.substring(str.indexOf("tw-link") , str.indexOf("</tw-link>"));
+                // Check if link contains a passage-name for ID, otherwise use text as ID
+                if (twLinkInfo.includes("passage-name")){
+                    str = str.substring(str.indexOf("passage-name"));
+                    ID = str.split("\"", 2)[1];
+                }else{
+                    ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
+                }
+            }else{
+                ID = "???";
+                console.log("Unsupported expression type: " + expressionType);
+            }
+            // push link into array
+            let link = {
+                nameID : ID,
+                linkType: expressionType
+            };
+            links.push(link);
         }
+        // return links;
     });
-    return names;
+    return links;
 }
+
 
 var url = "http://localhost:3000/links";
 var g = new Graph();
@@ -223,9 +255,3 @@ var cy = window.cy = cytoscape({
     elements: a
 });
 g.printGraph();
-
-// Testing strings
-// "↶\n\nB\n\n1. C \n2. E \n"
-// "↷\n\nA\n\n1. B \n2. F \n3. G \n"
-// "↶\n↷\n\nB\n\n1. C \n2. E \n"
-// .replace(/↶\n|↷\n/g, "");
