@@ -203,6 +203,7 @@ function getChildrenIDs(){
             }else{
                 ID = "???";
                 console.log("Unsupported expression type: " + expressionType);
+                str = str.substring(str.indexOf("tw-link"));
             }
             // push link into array
             let link = {
