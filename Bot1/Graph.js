@@ -206,6 +206,8 @@ function getChildren(){
             let expressionName = twExpression.substring(str.indexOf("name"));
             let expressionType = expressionName.split("\"", 2)[1];
 
+            // console.log("Expression type is " + expressionType);
+
             if (expressionType === "cycling-link"){
                 str = str.substring(str.indexOf("tw-link"));
                 ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
@@ -226,16 +228,19 @@ function getChildren(){
             }else{
                 ID = "???";
                 console.log("Unsupported expression type: " + expressionType);
-                str = str.substring(str.indexOf("tw-link"));
+                str = str.substring(str.indexOf("name"));
             }
             // push link into array
             let link = {
                 nameID : ID,
                 linkType: expressionType
             };
-            links.push(link);
+            if(ID !== "???") {
+                links.push(link);
+            }
         }
     });
+    console.log(links);
     return links;
 }
 
