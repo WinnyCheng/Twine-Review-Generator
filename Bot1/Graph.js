@@ -49,6 +49,12 @@ class Graph {
         this.M.set(nameID, false);
     }
 
+    replaceVertex(oldName, newName){
+        this.E.set(newName, this.E.get(oldName));
+        this.E.delete(oldName);
+        this.V = this.V - 1;
+    }
+
     // addEdge(v, w){
     //     this.E.get(v).push(w);
     // }
@@ -144,6 +150,36 @@ class Graph {
     }
 }
 
+//check duplicates with beginning vertex
+function matchStart(nameID){
+    //if nameID is start return
+    if(nameID === "Start")
+        return false;
+
+    //grab text and children of start vertex
+    let sObj = g.E.get("Start");
+    let sText = sObj['Text'];
+    let sChildren = sObj['Children'];
+    //grab text and children of given vertex
+    let obj = g.E.get(nameID);
+    let text = obj['Text'];
+    let children = obj['Children'];
+    //compare texts and children
+    let tMatch = sText === text;
+    let cMatch = isChildrenEqual(sChildren, children);
+
+    return tMatch && cMatch;
+}
+
+function isChildrenEqual(childrenA, childrenB){
+    for(var i = 0; i < childrenA.length || i < childrenB.length; i++){
+        if(childrenA[i] !== childrenB[i])
+            return false;
+    }
+    return true;
+}
+
+let hasStart = true;
 // INPUT: string nameID which represents the passage-name of each passage.
 // RETURNS:
 function play(nameID) {
@@ -165,6 +201,12 @@ function play(nameID) {
                 // add child to graph
                 $.get("http://localhost:3000/click/" + i, function () {
                     g.addVertex(children[i]);
+                    if(hasStart) {
+                        if(matchStart(children[i])) {
+                            g.replaceVertex("Start", children[i])
+                            hasStart = false;
+                        }
+                    }
                     play(children[i]);
                     $.get("http://localhost:3000/undo");
                 });
@@ -259,55 +301,4 @@ $.getJSON("http://localhost:3000/reset");
 
 g.addVertex("Start");
 play("Start");
-
-// //check duplicates with beginning vertex
-let startObj = g.E.get("Start");
-let sText = startObj['Text'];
-let sChildren = startObj['Children'];
-let keys = g.E.keys();
-for(let ver of keys){
-    let obj = g.E.get(ver);
-    let text = obj['Text'];
-    let children = obj['Children'];
-
-    let tMatch = sText === text;
-    let cMatch = isChildrenEqual(sChildren, children);
-
-    if(ver !== "Start" && tMatch && cMatch){
-        console.log(g.E.delete("Start"));
-    }
-}
-
-function isChildrenEqual(childrenA, childrenB){
-    for(var i = 0; i < childrenA.length || i < childrenB.length; i++){
-        if(childrenA[i] !== childrenB[i])
-            return false;
-    }
-    return true;
-}
-
-var cy = window.cy = cytoscape({
-    container: document.getElementById('cy'),
-    layout: {
-        name: 'grid',
-        rows: 2,
-        cols: 2
-    },
-    style: [
-        {
-            selector: 'node[name]',
-            style: {
-                'content': 'data(name)'
-            }
-        },
-        {
-            selector: 'edge',
-            style: {
-                'curve-style': 'bezier',
-                'target-arrow-shape': 'triangle'
-            }
-        }
-    ],
-    elements: a
-});
 g.printGraph();

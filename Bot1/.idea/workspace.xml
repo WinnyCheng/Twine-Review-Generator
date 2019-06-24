@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="201e86c3-da69-4e52-b9b3-cbcd12594ac3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Bot1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bot1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Graph.js" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.js" afterDir="false" />
     </list>
@@ -20,14 +19,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="276" column="37" selection-start-line="276" selection-start-column="37" selection-end-line="276" selection-end-column="37" />
+            <state relative-caret-position="424">
+              <caret line="211" column="19" lean-forward="true" selection-start-line="211" selection-start-column="19" selection-end-line="211" selection-end-column="19" />
               <folding>
                 <element signature="e#1#247#0" />
                 <element signature="e#261#281#0" />
                 <element signature="e#1698#1747#0" />
-                <element signature="e#5174#6153#0" />
                 <element signature="e#6155#6194#0" />
+                <element signature="e#9309#9340#0" />
               </folding>
             </state>
           </provider>
@@ -44,7 +43,15 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Twine_Games/twineMe.html">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="646">
+              <caret line="38" column="18" lean-forward="true" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+              <folding>
+                <element signature="n#style#0;n#tw-colour#0;n#!!top" expanded="true" />
+                <element signature="e#89#95#1" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -181,7 +188,7 @@
       <workItem from="1560956390382" duration="8131000" />
       <workItem from="1561054583543" duration="11009000" />
       <workItem from="1561142341636" duration="3310000" />
-      <workItem from="1561402103766" duration="2493000" />
+      <workItem from="1561402103766" duration="5254000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -316,11 +323,18 @@
       <option name="project" value="LOCAL" />
       <updated>1561063304960</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Delete Start Node if it loops back">
+      <created>1561404657367</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1561404657370</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116788000" />
+    <option name="totallyTimeSpent" value="119549000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
@@ -332,7 +346,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.23960613" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.35886213" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -385,16 +399,17 @@
     <MESSAGE value="function that get all cycling links + oo.html for testing" />
     <MESSAGE value="passage-name parser" />
     <MESSAGE value="Updated E map with passage name ID as Key and Value as an Object with ID number, text, and it's links" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated E map with passage name ID as Key and Value as an Object with ID number, text, and it's links" />
+    <MESSAGE value="Delete Start Node if it loops back" />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete Start Node if it loops back" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/Graph.js</url>
-          <line>263</line>
+          <line>202</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -460,6 +475,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../Twine_Games/twineMe.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="18" lean-forward="true" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+          <folding>
+            <element signature="n#style#0;n#tw-colour#0;n#!!top" expanded="true" />
+            <element signature="e#89#95#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -467,19 +493,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Twine_Games/twineMe.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Graph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="276" column="37" selection-start-line="276" selection-start-column="37" selection-end-line="276" selection-end-column="37" />
+        <state relative-caret-position="424">
+          <caret line="211" column="19" lean-forward="true" selection-start-line="211" selection-start-column="19" selection-end-line="211" selection-end-column="19" />
           <folding>
             <element signature="e#1#247#0" />
             <element signature="e#261#281#0" />
             <element signature="e#1698#1747#0" />
-            <element signature="e#5174#6153#0" />
             <element signature="e#6155#6194#0" />
+            <element signature="e#9309#9340#0" />
           </folding>
         </state>
       </provider>
