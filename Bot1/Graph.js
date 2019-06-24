@@ -62,7 +62,7 @@ class Graph {
         $.getJSON("http://localhost:3000/text", function(text){
             passageText += text['text'];
         });
-        return passageText;
+        return passageText.replace(/↶\n|↷\n/g, "");
     }
 
     // todo this should be a function of the node ***
@@ -240,7 +240,7 @@ function getChildren(){
             }
         }
     });
-    console.log(links);
+    // console.log(links);
     return links;
 }
 
@@ -259,6 +259,32 @@ $.getJSON("http://localhost:3000/reset");
 
 g.addVertex("Start");
 play("Start");
+
+// //check duplicates with beginning vertex
+let startObj = g.E.get("Start");
+let sText = startObj['Text'];
+let sChildren = startObj['Children'];
+let keys = g.E.keys();
+for(let ver of keys){
+    let obj = g.E.get(ver);
+    let text = obj['Text'];
+    let children = obj['Children'];
+
+    let tMatch = sText === text;
+    let cMatch = isChildrenEqual(sChildren, children);
+
+    if(ver !== "Start" && tMatch && cMatch){
+        console.log(g.E.delete("Start"));
+    }
+}
+
+function isChildrenEqual(childrenA, childrenB){
+    for(var i = 0; i < childrenA.length || i < childrenB.length; i++){
+        if(childrenA[i] !== childrenB[i])
+            return false;
+    }
+    return true;
+}
 
 var cy = window.cy = cytoscape({
     container: document.getElementById('cy'),

@@ -11,5 +11,7 @@
     <orderEntry type="library" name="jquery-3.4.1" level="application" />
     <orderEntry type="library" name="jquery-2.2.4" level="application" />
     <orderEntry type="library" name="jquery-1.12.4" level="application" />
+    <orderEntry type="library" name="viz" level="application" />
+    <orderEntry type="library" name="full.render" level="application" />
   </component>
 </module>
