@@ -76,9 +76,12 @@ class Graph {
         }
         return story;
     }
-    //returns the text of every vertex of one path as a String
+    //returns an object of the text of every vertex of one path as a String, number of vertices
+    // with 3 or more links, and number of vertices with 2 links
     singlePath(){
         var story = "";
+        var twoLinks = 0;
+        var mulitpleLinks = 0;
         var start = "";
         //grab first vertex, vertex with ID number 1
         for(let k of this.E.keys()){
@@ -88,7 +91,7 @@ class Graph {
             }
         }
 
-        console.log("start: " + start);
+        // console.log("start: " + start);
 
         var vertex = this.E.get(start);
         var child = vertex['Children'];
@@ -104,12 +107,17 @@ class Graph {
         // 1. No more links aka children array is empty
         // 2. It returns to starting vertex aka vertex number ID 1
         while(!childrenEmpty && !returnedToStart){
+            //check number of links of current vertex
+            if(child.length === 2)
+                twoLinks++;
+            else if(child.length > 2)
+                mulitpleLinks++;
             //random edge to next vertex
             var index = Math.floor(Math.random() * child.length);
-            console.log("sChild Length: " + child.length);
-            console.log("index: " + index);
+            // console.log("sChild Length: " + child.length);
+            // console.log("index: " + index);
             var current = child[index];
-            console.log("Current: " + current);
+            // console.log("Current: " + current);
             vertex = this.E.get(current);
             child = vertex['Children'];
 
@@ -118,7 +126,12 @@ class Graph {
             childrenEmpty = child.length === 0;
             returnedToStart = current === start;
         }
-        return story;
+
+        return {
+            text: story,
+            twoLinks: twoLinks,
+            multiLinks: mulitpleLinks
+        };
     }
 }
 

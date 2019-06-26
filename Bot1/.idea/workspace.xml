@@ -20,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="120" column="21" lean-forward="true" selection-start-line="120" selection-start-column="21" selection-end-line="120" selection-end-column="21" />
+            <state relative-caret-position="612">
+              <caret line="128" selection-start-line="128" selection-end-line="128" />
               <folding>
                 <element signature="n#!!block;n#constructor#0;n#Graph#0" />
                 <element signature="n#!!block;n#addVertex#0;n#Graph#0" />
@@ -110,15 +110,6 @@
               <item name="Bot1" type="b2602c69:ProjectViewProjectNode" />
               <item name="Bot1" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="Bot1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="Bot1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="jquery-3.4.1" type="70bed36:NamedLibraryElementNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -199,7 +190,7 @@
       <workItem from="1561402103766" duration="8114000" />
       <workItem from="1561486789076" duration="4042000" />
       <workItem from="1561575312908" duration="609000" />
-      <workItem from="1561576726444" duration="5318000" />
+      <workItem from="1561576726444" duration="7682000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -362,17 +353,24 @@
       <option name="project" value="LOCAL" />
       <updated>1561578423113</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="singlePath function complete">
+      <created>1561582297050</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1561582297050</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132378000" />
+    <option name="totallyTimeSpent" value="134742000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="1" />
+    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23076923" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.23076923" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -434,7 +432,8 @@
     <MESSAGE value="Delete Start Node if it loops back" />
     <MESSAGE value="Clean up some comments and set default start vertex name ID with variable" />
     <MESSAGE value="additional functions if Graph Class" />
-    <option name="LAST_COMMIT_MESSAGE" value="additional functions if Graph Class" />
+    <MESSAGE value="singlePath function complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="singlePath function complete" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -513,8 +512,8 @@
     <entry file="file://$PROJECT_DIR$/../../Twine_Games/Escape_Olive/Escaping Olive.html" />
     <entry file="file://$PROJECT_DIR$/Graph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="120" column="21" lean-forward="true" selection-start-line="120" selection-start-column="21" selection-end-line="120" selection-end-column="21" />
+        <state relative-caret-position="612">
+          <caret line="128" selection-start-line="128" selection-end-line="128" />
           <folding>
             <element signature="n#!!block;n#constructor#0;n#Graph#0" />
             <element signature="n#!!block;n#addVertex#0;n#Graph#0" />
