@@ -1,7 +1,7 @@
 
 var g = getGraph();
 
-var fullStory = new RiString(g.getStory());
+var fullStory = new RiString(g.singlePath());
 var storyArray = fullStory.words();
 
 console.log(storyArray);

@@ -68,7 +68,7 @@ class Graph {
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
     }
-
+    //returns the text of every vertex as a String
     getStory(){
         var story = "";
         for(let k of this.E.keys()){
@@ -76,11 +76,10 @@ class Graph {
         }
         return story.replace(/↶\n|↷\n/g, "");
     }
-
+    //returns the text of every vertex of one path as a String
     singlePath(){
         var story = "";
         var start = "";
-        var current = "";
         //grab first vertex, vertex with ID number 1
         for(let k of this.E.keys()){
             if(this.E.get(k)['numID'] === 1){
@@ -88,18 +87,37 @@ class Graph {
                 break;
             }
         }
+
+        console.log("start: " + start);
+
+        var vertex = this.E.get(start);
+        var child = vertex['Children'];
+
+        //save text
+        story += vertex['Text'];
+
+        var childrenEmpty = child.length === 0;
+        var returnedToStart = false;
+
         //go down random path till "End" of story
         //End condition
         // 1. No more links aka children array is empty
         // 2. It returns to starting vertex aka vertex number ID 1
-        var childrenEmpty = this.E.get(current)['Children'].length === 0;
-        var returnedToStart = current === start;
+        while(!childrenEmpty && !returnedToStart){
+            //random edge to next vertex
+            var index = Math.floor(Math.random() * child.length);
+            console.log("sChild Length: " + child.length);
+            console.log("index: " + index);
+            var current = child[index];
+            console.log("Current: " + current);
+            vertex = this.E.get(current);
+            child = vertex['Children'];
 
-        story += this.E.get(start)['Text'];
-
-        //random edge to next vertex
-        var index = Math.random();
-
+            //save text
+            story += vertex['Text'];
+            childrenEmpty = child.length === 0;
+            returnedToStart = current === start;
+        }
         return story;
     }
 }
