@@ -74,7 +74,7 @@ class Graph {
         for(let k of this.E.keys()){
             story += this.E.get(k)['Text'];
         }
-        return story;
+        return story.replace(/↶\n|↷\n/g, "");
     }
 
     singlePath(){
