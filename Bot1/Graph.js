@@ -68,6 +68,37 @@ class Graph {
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
     }
+
+    getStory(){
+        var story = "";
+        for(let k of this.E.keys()){
+            story += this.E.get(k)['Text'];
+        }
+        return story;
+    }
+
+    singlePath(){
+        var story = "";
+        var start = "";
+        var current = "";
+        //grab first vertex, vertex with ID number 1
+        for(let k of this.E.keys()){
+            if(this.E.get(k)['numID'] === 1){
+                start = k;
+                break;
+            }
+        }
+        //go down random path till "End" of story
+        //End condition
+        // 1. No more links aka children array is empty
+        // 2. It returns to starting vertex aka vertex number ID 1
+        var childrenEmpty = this.E.get(current)['Children'].length === 0;
+        var returnedToStart = current === start;
+
+        story += this.E.get(start)['Text'];
+
+        return story;
+    }
 }
 
 //check duplicates with beginning vertex
@@ -188,4 +219,8 @@ $.getJSON("http://localhost:3000/reset");
 let defaultVer = "Begin";
 g.addVertex(defaultVer); //add initial vertex to graph
 play(defaultVer);
-g.printGraph();
+// g.printGraph();
+
+function getGraph(){
+    return g;
+}
