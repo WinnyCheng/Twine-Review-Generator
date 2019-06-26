@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="201e86c3-da69-4e52-b9b3-cbcd12594ac3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Graph.js" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -19,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+            <state relative-caret-position="498">
+              <caret line="98" selection-start-line="98" selection-end-line="98" />
               <folding>
                 <element signature="n#!!block;n#matchStart#0" />
                 <element signature="n#!!block;n#isChildrenEqual#0" />
@@ -191,7 +190,7 @@
       <workItem from="1561402103766" duration="8114000" />
       <workItem from="1561486789076" duration="4042000" />
       <workItem from="1561575312908" duration="609000" />
-      <workItem from="1561576726444" duration="1667000" />
+      <workItem from="1561576726444" duration="2018000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -347,11 +346,18 @@
       <option name="project" value="LOCAL" />
       <updated>1561409977514</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="additional functions if Graph Class">
+      <created>1561578423113</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1561578423113</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128727000" />
+    <option name="totallyTimeSpent" value="129078000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="974" height="1047" extended-state="0" />
@@ -418,7 +424,8 @@
     <MESSAGE value="Updated E map with passage name ID as Key and Value as an Object with ID number, text, and it's links" />
     <MESSAGE value="Delete Start Node if it loops back" />
     <MESSAGE value="Clean up some comments and set default start vertex name ID with variable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean up some comments and set default start vertex name ID with variable" />
+    <MESSAGE value="additional functions if Graph Class" />
+    <option name="LAST_COMMIT_MESSAGE" value="additional functions if Graph Class" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -497,8 +504,8 @@
     <entry file="file://$PROJECT_DIR$/../../Twine_Games/Escape_Olive/Escaping Olive.html" />
     <entry file="file://$PROJECT_DIR$/Graph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+        <state relative-caret-position="498">
+          <caret line="98" selection-start-line="98" selection-end-line="98" />
           <folding>
             <element signature="n#!!block;n#matchStart#0" />
             <element signature="n#!!block;n#isChildrenEqual#0" />

@@ -97,6 +97,9 @@ class Graph {
 
         story += this.E.get(start)['Text'];
 
+        //random edge to next vertex
+        var index = Math.random();
+
         return story;
     }
 }
