@@ -74,7 +74,7 @@ class Graph {
         for(let k of this.E.keys()){
             story += this.E.get(k)['Text'];
         }
-        return story;
+        return story.replace(/↶\n|↷\n/g, "");
     }
     //returns an object of the text of every vertex of one path as a String, number of vertices
     // with 3 or more links, and number of vertices with 2 links
