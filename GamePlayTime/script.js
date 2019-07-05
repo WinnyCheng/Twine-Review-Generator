@@ -32,7 +32,7 @@ for(var i = 0; i < trials; i++){
     // console.log(i + " Estimated Time of Game Play: " + readingTime + " minutes");
 }
 
-var averageTime = sum / trials;
+var averageTime = Math.round(sum / trials);
 
 console.log("Estimated Time of Game Play: " + averageTime + " minutes");
 

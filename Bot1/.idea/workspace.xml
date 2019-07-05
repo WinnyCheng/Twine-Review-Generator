@@ -20,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="128" selection-start-line="128" selection-end-line="128" />
+            <state relative-caret-position="745">
+              <caret line="282" column="21" selection-start-line="282" selection-start-column="21" selection-end-line="282" selection-end-column="21" />
               <folding>
                 <element signature="n#!!block;n#constructor#0;n#Graph#0" />
                 <element signature="n#!!block;n#addVertex#0;n#Graph#0" />
@@ -30,6 +30,7 @@
                 <element signature="n#!!block;n#getText#0;n#Graph#0" />
                 <element signature="n#!!block;n#printGraph#0;n#Graph#0" />
                 <element signature="n#!!block;n#getStory#0;n#Graph#0" />
+                <element signature="n#!!block;n#singlePath#0;n#Graph#0" />
                 <element signature="n#!!block;n#matchStart#0" />
                 <element signature="n#!!block;n#isChildrenEqual#0" />
                 <element signature="n#!!block;n#play#0" />
@@ -42,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+            <state relative-caret-position="323">
+              <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -92,7 +93,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -102,25 +103,12 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Bot1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bot1" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Twine_Games/twineMe.html" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -190,7 +178,10 @@
       <workItem from="1561402103766" duration="8114000" />
       <workItem from="1561486789076" duration="4042000" />
       <workItem from="1561575312908" duration="609000" />
-      <workItem from="1561576726444" duration="7682000" />
+      <workItem from="1561576726444" duration="7782000" />
+      <workItem from="1561661846453" duration="6637000" />
+      <workItem from="1562013400134" duration="4545000" />
+      <workItem from="1562087709696" duration="4904000" />
     </task>
     <task id="LOCAL-00001" summary="GET Request">
       <created>1558102976891</created>
@@ -364,10 +355,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="134742000" />
+    <option name="totallyTimeSpent" value="150928000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.23076923" />
@@ -376,7 +367,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.25820568" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.43326038" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -436,6 +427,16 @@
     <option name="LAST_COMMIT_MESSAGE" value="singlePath function complete" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/Graph.js</url>
+          <line>98</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="JavascriptDebugType">
         <watch expression="children[&quot;1&quot;]" />
@@ -498,10 +499,11 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../Twine_Games/Escape_Olive/Escaping Olive.html" />
     <entry file="file://$PROJECT_DIR$/../../Twine_Games/twineMe.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="18" lean-forward="true" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+        <state relative-caret-position="-15">
+          <caret line="35" column="42" lean-forward="true" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
           <folding>
             <element signature="n#style#0;n#tw-colour#0;n#!!top" expanded="true" />
             <element signature="e#89#95#1" expanded="true" />
@@ -509,11 +511,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Twine_Games/Escape_Olive/Escaping Olive.html" />
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Graph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="128" selection-start-line="128" selection-end-line="128" />
+        <state relative-caret-position="745">
+          <caret line="282" column="21" selection-start-line="282" selection-start-column="21" selection-end-line="282" selection-end-column="21" />
           <folding>
             <element signature="n#!!block;n#constructor#0;n#Graph#0" />
             <element signature="n#!!block;n#addVertex#0;n#Graph#0" />
@@ -522,18 +530,12 @@
             <element signature="n#!!block;n#getText#0;n#Graph#0" />
             <element signature="n#!!block;n#printGraph#0;n#Graph#0" />
             <element signature="n#!!block;n#getStory#0;n#Graph#0" />
+            <element signature="n#!!block;n#singlePath#0;n#Graph#0" />
             <element signature="n#!!block;n#matchStart#0" />
             <element signature="n#!!block;n#isChildrenEqual#0" />
             <element signature="n#!!block;n#play#0" />
             <element signature="n#!!block;n#getChildren#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>

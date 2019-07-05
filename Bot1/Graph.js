@@ -79,6 +79,11 @@ class Graph {
     //returns an object of the text of every vertex of one path as a String, number of vertices
     // with 3 or more links, and number of vertices with 2 links
     singlePath(){
+        //keep track of which vertices are visited and marked so it doesn't
+        // go back to a path it already gone through
+        var seen = new Map();
+        var mark = new Map();
+
         var story = "";
         var twoLinks = 0;
         var mulitpleLinks = 0;
@@ -91,40 +96,56 @@ class Graph {
             }
         }
 
-        // console.log("start: " + start);
-
         var vertex = this.E.get(start);
+        seen.set(vertex['numID'], true);
         var child = vertex['Children'];
 
         //save text
         story += vertex['Text'];
 
         var childrenEmpty = child.length === 0;
-        var returnedToStart = false;
+        // var returnedToStart = false;
 
         //go down random path till "End" of story
         //End condition
         // 1. No more links aka children array is empty
         // 2. It returns to starting vertex aka vertex number ID 1
-        while(!childrenEmpty && !returnedToStart){
+        while(!childrenEmpty){
             //check number of links of current vertex
             if(child.length === 2)
                 twoLinks++;
             else if(child.length > 2)
                 mulitpleLinks++;
-            //random edge to next vertex
-            var index = Math.floor(Math.random() * child.length);
-            // console.log("sChild Length: " + child.length);
-            // console.log("index: " + index);
+
+            do {
+                //random edge to next vertex
+                var index = Math.floor(Math.random() * child.length);
+            }
+            while(mark.has(this.E.get(child[index])['numID'])); //random index that is unmarked
+
+            //check if all seen then mark
+            let marked = true;
+            for(let c of child){
+                marked = marked && mark.has(c);
+            }
+            if(marked)
+                mark.set(vertex['numID'], true);
+
             var current = child[index];
-            // console.log("Current: " + current);
+            ///test
+                console.log(current);
+            ///test
             vertex = this.E.get(current);
+            if(!seen.has(vertex['numID']))
+                story += vertex['Text']; //save text
+            seen.set(vertex['numID'], true);
             child = vertex['Children'];
 
-            //save text
-            story += vertex['Text'];
+            if(child.length === 1)
+                mark.set(vertex['numID'], true);
+
             childrenEmpty = child.length === 0;
-            returnedToStart = current === start;
+            // returnedToStart = current === start;
         }
 
         return {
@@ -257,4 +278,9 @@ play(defaultVer);
 
 function getGraph(){
     return g;
+}
+
+for(let i = 0; i < 10; i++) {
+    console.log("Trial " + i);
+    g.singlePath();
 }
