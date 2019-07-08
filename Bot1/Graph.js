@@ -1,3 +1,6 @@
+
+
+
 //sets all javascript code to be synchronous
 $.ajaxSetup({
     async: false
@@ -271,15 +274,17 @@ var g = new Graph();
 // $.getJSON("http://localhost:3000/reset");
 
 // Add beginning vertex to graph
-// let defaultVer = "Begin";
-// g.addVertex(defaultVer); //add initial vertex to graph
-// play(defaultVer);
-// g.printGraph();
+let defaultVer = "Begin";
+g.addVertex(defaultVer); //add initial vertex to graph
+play(defaultVer);
+g.printGraph();
 
 //return graph of game
 function getGraph(){
     return g;
 }
+
+
 
 //testing
 // for(let i = 0; i < 10; i++) {
@@ -317,3 +322,5 @@ console.log(parseSource());
 //another class - opens passage shell for you given direct route, grabs source,
 // parses it, puts it in graph, maybe function to start passage shell, function to grab
 // graph, and function to end passage shell
+
+
