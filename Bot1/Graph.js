@@ -268,19 +268,52 @@ function getChildren(){
 
 var url = "http://localhost:3000/links";
 var g = new Graph();
-$.getJSON("http://localhost:3000/reset");
+// $.getJSON("http://localhost:3000/reset");
 
 // Add beginning vertex to graph
-let defaultVer = "Begin";
-g.addVertex(defaultVer); //add initial vertex to graph
-play(defaultVer);
+// let defaultVer = "Begin";
+// g.addVertex(defaultVer); //add initial vertex to graph
+// play(defaultVer);
 // g.printGraph();
 
+//return graph of game
 function getGraph(){
     return g;
 }
 
-for(let i = 0; i < 10; i++) {
-    console.log("Trial " + i);
-    g.singlePath();
+//testing
+// for(let i = 0; i < 10; i++) {
+//     console.log("Trial " + i);
+//     g.singlePath();
+// }
+
+function parseSource(){
+    var passages = [];
+    $.getJSON("http://localhost:3000/source", function(source){
+        var storyData = source['source'].split("<tw-passagedata");
+        for(let data of storyData){
+            var name = data.split("\"", 4)[3];
+            var text = data.substring(data.indexOf(">")+1, data.indexOf("<"));
+            var str = text;
+            var links = [];
+            while(str.length > 0 && str.includes("[[") && str.includes("]]")){
+                links.push(str.substring(str.indexOf("[[")+2, str.indexOf("]]")));
+                str = str.substring(str.indexOf("]]")+2);
+            }
+            var pas = {
+                nameID: name,
+                text: text,
+                links: links
+            };
+            passages.push(pas);
+        }
+    });
+    return passages;
 }
+
+console.log(parseSource());
+
+//a graph class - just a simple graph nothing twine related - maybe a graph library
+//another class - opens passage shell for you given direct route, grabs source,
+// parses it, puts it in graph, maybe function to start passage shell, function to grab
+// graph, and function to end passage shell
