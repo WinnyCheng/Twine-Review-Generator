@@ -6,7 +6,16 @@ $.ajaxSetup({
     async: false
 });
 
-var a = [];
+// graph template for viz.js
+let graph = "digraph { }";
+
+// to insert a string inside a string
+String.prototype.insert = function (index, string) {
+    if (index > 0)
+        return this.substring(0, index) + string + this.substring(index, this.length);
+
+    return string + this;
+};
 
 // graph implementation
 class Graph {
@@ -15,6 +24,7 @@ class Graph {
         this.E = new Map(); // Vertex nameID -> obj [string text, int vertexNum, array of nameID children, array of link type]
         this.M = new Map(); // Vertex nameID -> boolean
     }
+
     //Adds a new vertex to the graph with given ID name
     addVertex(nameID) {
         this.V = this.V + 1; //counter for total number of vertices in the graph
@@ -33,15 +43,18 @@ class Graph {
         this.E.set(nameID, ver);
         this.M.set(nameID, false); //vertex is not marked
     }
+
     //replaces the name ID of a vertex
     replaceVertex(oldName, newName){
         this.E.set(newName, this.E.get(oldName));
         this.E.delete(oldName);
         this.V = this.V - 1;
     }
+
     mark(v) {
         this.M.set(v, true);
     }
+
     // grabs passage text from current passage
     getText(){
         let passageText = "";
@@ -50,7 +63,7 @@ class Graph {
         });
         return passageText.replace(/↶\n|↷\n/g, "");
     }
-    // todo merge printGraph implementation from Vizjs branch
+
     //print all vertices and connected edges
     printGraph(){
         console.log("I will start printing the graph");
@@ -62,15 +75,23 @@ class Graph {
                 str += this.E.get(j)['numID'] + " ";
                 // str += j + " ";
             }
-            console.log(this.E.get(i)['numID'] + " -> " + str);
-            // console.log(i + " -> " + str);
-            a.push({data: { id: i, name: i }});
-            a.push({data: { id: str, name: str}});
-            a.push({data: { source: i, target: str} });
+
+            var children = str.split(" ");
+            children.pop();
+
+            if(str !== "" && children.length !== 0) {
+                console.log(this.E.get(i)['numID'] + " -> " + str);
+                console.log(this.E.get(i)['numID'] + " -> " + children);
+                console.log(children.length);
+                for(let k = 0; k < children.length; k++) {
+                    graph = graph.insert(graph.length - 2, " " + this.E.get(i)['numID'] + " -> " + children[k]);
+                }
+            }
         }
         console.log("my Vertex are: " + g.V);
         console.log("length of keys are: " + g.E.size);
     }
+
     //returns the text of every vertex as a String
     getStory(){
         var story = "";
@@ -79,6 +100,7 @@ class Graph {
         }
         return story.replace(/↶\n|↷\n/g, "");
     }
+
     //returns an object of the text of every vertex of one path as a String, number of vertices
     // with 3 or more links, and number of vertices with 2 links
     singlePath(){
@@ -86,7 +108,6 @@ class Graph {
         // go back to a path it already gone through
         var seen = new Map();
         var mark = new Map();
-
         var story = "";
         var twoLinks = 0;
         var mulitpleLinks = 0;
@@ -99,15 +120,15 @@ class Graph {
             }
         }
 
+        // console.log("start: " + start);
         var vertex = this.E.get(start);
-        seen.set(vertex['numID'], true);
         var child = vertex['Children'];
 
         //save text
         story += vertex['Text'];
 
         var childrenEmpty = child.length === 0;
-        // var returnedToStart = false;
+        //var returnedToStart = false;
 
         //go down random path till "End" of story
         //End condition
@@ -136,7 +157,7 @@ class Graph {
 
             var current = child[index];
             ///test
-                console.log(current);
+                //console.log(current);
             ///test
             vertex = this.E.get(current);
             if(!seen.has(vertex['numID']))
@@ -232,7 +253,6 @@ function getChildren(){
             let expressionType = expressionName.split("\"", 2)[1];
 
             // console.log("Expression type is " + expressionType);
-
             if (expressionType === "cycling-link"){
                 str = str.substring(str.indexOf("tw-link"));
                 ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
@@ -284,13 +304,13 @@ function getGraph(){
     return g;
 }
 
-
-
 //testing
+
 // for(let i = 0; i < 10; i++) {
 //     console.log("Trial " + i);
 //     g.singlePath();
 // }
+
 
 function parseSource(){
     var passages = [];
@@ -322,5 +342,23 @@ console.log(parseSource());
 //another class - opens passage shell for you given direct route, grabs source,
 // parses it, puts it in graph, maybe function to start passage shell, function to grab
 // graph, and function to end passage shell
+
+
+g.printGraph();
+console.log(graph);
+
+// draw the graph on page
+var viz = new Viz();
+viz.renderSVGElement(graph)
+    .then(function(element) {
+        document.body.appendChild(element);
+    })
+    .catch(error => {
+        // Create a new Viz instance (@see Caveats page for more info)
+        viz = new Viz();
+
+        // Possibly display the error
+        //console.error(error);
+    });
 
 
