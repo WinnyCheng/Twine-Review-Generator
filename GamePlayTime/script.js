@@ -1,5 +1,5 @@
 
-var g = getGraph();
+var g = createGraph();
 
 var trials = 100;
 var sum = 0;

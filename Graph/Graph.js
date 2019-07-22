@@ -54,8 +54,8 @@ class Graph {
             children.pop();
 
             if(str !== "" && children.length !== 0) {
-                console.log(this.E.get(i)['PID'] + " -> " + str);
-                console.log(this.E.get(i)['PID'] + " -> " + children);
+                // console.log(this.E.get(i)['PID'] + " -> " + str);
+                // console.log(this.E.get(i)['PID'] + " -> " + children);
                 // console.log(children.length);
                 for(let k = 0; k < children.length; k++) {
                     graph = graph.insert(graph.length - 2, " " + this.E.get(i)['PID'] + " -> " + children[k]);
@@ -64,6 +64,19 @@ class Graph {
         }
         // console.log("my Vertex are: " + this.V);
         // console.log("length of keys are: " + this.E.size);
+        // draw the graph on page
+        var viz = new Viz();
+        viz.renderSVGElement(graph)
+            .then(function(element) {
+                document.body.appendChild(element);
+            })
+            .catch(error => {
+                // Create a new Viz instance (@see Caveats page for more info)
+                viz = new Viz();
+
+                // Possibly display the error
+                //console.error(error);
+            });
     }
     //returns the text of every vertex as a String
     getStory(){
@@ -78,19 +91,21 @@ class Graph {
     singlePath(){
         //keep track of which vertices are visited and marked so it doesn't
         // go back to a path it already gone through
-        var seen = new Map(); var mark = new Map();
-        var story = "";
-        var twoLinks = 0; var mulitpleLinks = 0;
-        var start = this.getFirstPID();
-        var path = [];
+        var seen = new Map(),
+            mark = new Map(),
+            story = "",
+            twoLinks = 0,
+            mulitpleLinks = 0,
+            start = this.getFirstPID();
+        // var path = [];
 
         var vertex = this.E.get(start);
-        path.push(start);
+        // path.push(start);
         seen.set(vertex['PID'], true);
         var child = vertex['LinksPass'];
         story += vertex['Text']; //save text
-        var childrenEmpty = child.length === 0;
-        var backToBeginning = false;
+        var childrenEmpty = child.length === 0,
+            backToBeginning = false;
         //go down random path till "End" of story
         //End condition
         // 1. No more links aka children array is empty
@@ -110,10 +125,10 @@ class Graph {
                 marked = marked && mark.has(c);
             mark.set(vertex['PID'], marked);
 
-            var current = child[index];
-            var linkName = vertex['LinksName'][index];
+            var current = child[index],
+                linkName = vertex['LinksName'][index];
             vertex = this.E.get(current);
-            path.push(current);
+            // path.push(current);
             if(!seen.has(vertex['PID']))
                 story += vertex['Text']; //save text
             seen.set(vertex['PID'], true);
@@ -125,7 +140,7 @@ class Graph {
                 (linkName.toLowerCase() === "restart" ||
                 linkName.toLowerCase() === "start over")
         }
-        console.log(path);
+        // console.log(path);
         return {
             text: story,
             twoLinks: twoLinks,
@@ -161,7 +176,7 @@ function setText(vertex, g){
         let linkPass = g.E.get(vertex)['LinksPass'];
         let links = data['links'];
 
-        for(let i = 0; i < links.length/2; i++){ //******divide by 2 cuz repeats********
+        for(let i = 0; i < links.length; i++){
             var name = links[i]['text'].trim();
             var index = linkNames.indexOf(name);
             vertex = linkPass[index];
@@ -266,22 +281,7 @@ function createGraph(){
     return g;
 }
 
-var G = createGraph();
-// console.log(G.getStory());
-G.printGraph();
-
-// draw the graph on page
-var viz = new Viz();
-viz.renderSVGElement(graph)
-    .then(function(element) {
-        document.body.appendChild(element);
-    })
-    .catch(error => {
-        // Create a new Viz instance (@see Caveats page for more info)
-        viz = new Viz();
-
-        // Possibly display the error
-        //console.error(error);
-    });
+// var G = createGraph();
+// G.printGraph();
 
 
