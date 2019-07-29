@@ -2,12 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tags in novel</title>
+    <title>Text Analysis</title>
+    <style>
+        #main {
+            padding-top: 30px;
+            font-family: Helvetica, sans-serif;
+            max-width: 960px;
+            min-width: 600px;
+            width: 60vw;
+        }
+        #sentences-container {
+            flex: 1 1 auto;
+        }
+        #sentences-container > div {
+            margin-bottom: 10px;
+        }
+        #container {
+            display: flex;
+            flex-direction: row;
+        }
+        #self-similarity-matrix {
+            position: relative;
+        }
+        .labels {
+            position: absolute;
+        }
+        .x-axis {
+            bottom: 100%;
+            width: 100%;
+            height: 20px;
+        }
+        .x-axis > div {
+            transform: translateX(-50%);
+        }
+        .y-axis {
+            right: 100%;
+            height: 100%;
+            width: 20px;
+        }
+        .y-axis > div {
+            transform: translateY(-50%);
+        }
+        .labels > div {
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
     <script src="../Libraries/rita-full.min.js"></script>
+
     <script src="../Libraries/sentimood.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/toxicity"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder"></script>
+
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+    <div id='main'>
+        <div id="container">
+            <div id="sentences-container"></div>
+            <div id="self-similarity-matrix">
+                <div class="labels y-axis"></div>
+                <div class="labels x-axis"></div>
+                <canvas></canvas>
+            </div>
+        </div>
+    </div>
+
     <script src="../Graph/Graph.js"></script>
     <script src="tags.js"></script>
 </body>

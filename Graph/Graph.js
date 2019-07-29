@@ -86,6 +86,14 @@ class Graph {
         }
         return story.replace(/↶\n|↷\n/g, "");
     }
+    //return the text of every vertex as an array of Strings
+    getStoryArray(){
+        var story = [];
+        for(let k of this.E.keys()){
+            story.push(this.E.get(k)['Text'].replace(/↶\n|↷\n/g, ""));
+        }
+        return story;
+    }
     //returns an object of the text of every vertex of one path as a String, number of vertices
     // with 3 or more links, and number of vertices with 2 links
     singlePath(){
