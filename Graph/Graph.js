@@ -102,6 +102,7 @@ class Graph {
         var seen = new Map(),
             mark = new Map(),
             story = "",
+            storyArray = [],
             twoLinks = 0,
             mulitpleLinks = 0,
             start = this.getFirstPID();
@@ -112,6 +113,7 @@ class Graph {
         seen.set(vertex['PID'], true);
         var child = vertex['LinksPass'];
         story += vertex['Text']; //save text
+        storyArray.push(vertex['Text']);
         var childrenEmpty = child.length === 0,
             backToBeginning = false;
         //go down random path till "End" of story
@@ -137,8 +139,10 @@ class Graph {
                 linkName = vertex['LinksName'][index];
             vertex = this.E.get(current);
             // path.push(current);
-            if(!seen.has(vertex['PID']))
+            if(!seen.has(vertex['PID'])) {
                 story += vertex['Text']; //save text
+                storyArray.push(vertex['Text']);
+            }
             seen.set(vertex['PID'], true);
             child = vertex['LinksPass'];
             if(child.length === 1)
@@ -151,6 +155,7 @@ class Graph {
         // console.log(path);
         return {
             text: story,
+            list: storyArray,
             twoLinks: twoLinks,
             multiLinks: mulitpleLinks
         };
@@ -161,6 +166,26 @@ class Graph {
             //default start passage = passage with pid 1
             if(this.E.get(key)['PID'] === "1") return key;
         }
+    }
+    //return number of vertices
+    getNumVer(){ return this.V; }
+    //return number of edges
+    getNumEdge(){
+        var edges = 0;
+        for(var k of this.E.keys()){
+            var links = this.E.get(k)['LinksPass'];
+            edges += this.rmDuplicates(links).length;
+        }
+        return edges;
+    }
+    //remove duplicate values in an array
+    rmDuplicates(list){
+        var newList = [];
+        for(var l of list){
+            if(!newList.includes(l))
+                newList.push(l);
+        }
+        return newList;
     }
 }
 
