@@ -1,6 +1,5 @@
 
 
-
 //sets all javascript code to be synchronous
 $.ajaxSetup({
     async: false
@@ -66,7 +65,6 @@ class Graph {
 
     //print all vertices and connected edges
     printGraph(){
-        console.log("I will start printing the graph");
         var keys = this.E.keys();
         for(var i of keys){
             var val = this.E.get(i)['Children'];
@@ -297,7 +295,7 @@ var g = new Graph();
 let defaultVer = "Begin";
 g.addVertex(defaultVer); //add initial vertex to graph
 play(defaultVer);
-g.printGraph();
+// g.printGraph();
 
 //return graph of game
 function getGraph(){
@@ -336,7 +334,7 @@ function parseSource(){
     return passages;
 }
 
-console.log(parseSource());
+// console.log(parseSource());
 
 //a graph class - just a simple graph nothing twine related - maybe a graph library
 //another class - opens passage shell for you given direct route, grabs source,
@@ -348,17 +346,17 @@ g.printGraph();
 console.log(graph);
 
 // draw the graph on page
-var viz = new Viz();
-viz.renderSVGElement(graph)
-    .then(function(element) {
-        document.body.appendChild(element);
-    })
-    .catch(error => {
-        // Create a new Viz instance (@see Caveats page for more info)
-        viz = new Viz();
-
-        // Possibly display the error
-        //console.error(error);
-    });
+// var viz = new Viz();
+// viz.renderSVGElement(graph)
+//     .then(function(element) {
+//         document.body.appendChild(element);
+//     })
+//     .catch(error => {
+//         // Create a new Viz instance (@see Caveats page for more info)
+//         viz = new Viz();
+//
+//         // Possibly display the error
+//         //console.error(error);
+//     });
 
 
