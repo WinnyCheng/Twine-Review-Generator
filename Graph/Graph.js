@@ -1,9 +1,6 @@
 
-
 //sets all javascript code to be synchronous
-$.ajaxSetup({
-    async: false
-});
+$.ajaxSetup({ async: false });
 
 // graph template for viz.js
 let graph = "digraph { }";
@@ -12,85 +9,91 @@ let graph = "digraph { }";
 String.prototype.insert = function (index, string) {
     if (index > 0)
         return this.substring(0, index) + string + this.substring(index, this.length);
-
     return string + this;
 };
 
-// graph implementation
+/**
+ * Graph structure implementation
+ */
 class Graph {
-    constructor(){
-        this.V = 0;
-        this.E = new Map(); // Vertex nameID -> obj [string text, int vertexNum, array of nameID children, array of link type]
-        this.M = new Map(); // Vertex nameID -> boolean
+    /**
+     * Build Graph object
+     * @param passages - an array of the all the passages in the twine game currently hosted by passage shell
+     */
+    constructor(passages){
+        this.V = passages.length; //number of vertices
+        this.E = this.addVertices(passages); //stores information about edges, pid, and text
+        this.visited = new Map();
+        this.twineName = this.name(); //name of the Twine game
     }
 
-    //Adds a new vertex to the graph with given ID name
-    addVertex(nameID) {
-        this.V = this.V + 1; //counter for total number of vertices in the graph
-        let children = getChildren(); //get all the links and link types, returns an array of objects
-        let edgeTo = []; let type = [];
-        for(let c of children){
-            edgeTo.push(c['nameID']); //list of children name IDs
-            type.push(c['linkType']); //list of link types matching children's name IDs
+    /**
+     * marks a vertex has been visited
+     * @param vertex - key of the vertex
+     */
+    mark(vertex){ this.visited.set(vertex, true); }
+
+    /**
+     * Adds all passages to graph as vertices
+     * @param passages - an array of the all the passages in the twine game currently hosted by passage shell
+     * @returns {Map<String, Object>} information about edges, pid, and text of each passage
+     */
+    addVertices(passages) {
+        var map = new Map();
+        for(var i = 0; i < passages.length; i++){
+            var passData = {
+                PID: passages[i]['pid'],  //unique ID number of passage
+                Text: "",
+                passageData: passages[i]['text'],
+                LinksName: passages[i]['linksName'], //name of link
+                LinksPass: passages[i]['linksPass'] //name of passage corresponding to link
+            };
+            map.set(passages[i]['name'], passData);
         }
-        let ver = {
-            numID: this.V,
-            Text: this.getText(),
-            Children: edgeTo,
-            linkType: type
-        };
-        this.E.set(nameID, ver);
-        this.M.set(nameID, false); //vertex is not marked
+        return map;
     }
 
-    //replaces the name ID of a vertex
-    replaceVertex(oldName, newName){
-        this.E.set(newName, this.E.get(oldName));
-        this.E.delete(oldName);
-        this.V = this.V - 1;
-    }
-
-    mark(v) {
-        this.M.set(v, true);
-    }
-
-    // grabs passage text from current passage
-    getText(){
-        let passageText = "";
-        $.getJSON("http://localhost:3000/text", function(text){
-            passageText += text['text'];
-        });
-        return passageText.replace(/↶\n|↷\n/g, "");
-    }
-
-    //print all vertices and connected edges
+    /**
+     * Prints a visual representation of graph on web page
+     */
     printGraph(){
-        var keys = this.E.keys();
+        var keys = this.E.keys(); //get all vertices
         for(var i of keys){
-            var val = this.E.get(i)['Children'];
+            var val = this.E.get(i)['LinksPass']; //get all links for each vertex
             var str = "";
             for(var j of val){
-                str += this.E.get(j)['numID'] + " ";
-                // str += j + " ";
+                if(!str.includes(this.E.get(j)['PID']))
+                    str += this.E.get(j)['PID'] + " ";
             }
 
             var children = str.split(" ");
             children.pop();
 
             if(str !== "" && children.length !== 0) {
-                console.log(this.E.get(i)['numID'] + " -> " + str);
-                console.log(this.E.get(i)['numID'] + " -> " + children);
-                console.log(children.length);
                 for(let k = 0; k < children.length; k++) {
-                    graph = graph.insert(graph.length - 2, " " + this.E.get(i)['numID'] + " -> " + children[k]);
+                    graph = graph.insert(graph.length - 2, " " + this.E.get(i)['PID'] + " -> " + children[k]);
                 }
             }
         }
-        console.log("my Vertex are: " + g.V);
-        console.log("length of keys are: " + g.E.size);
+        // draw the graph on page
+        var viz = new Viz();
+        viz.renderSVGElement(graph)
+            .then(function(element) {
+                document.body.appendChild(element);
+            })
+            .catch(error => {
+                // Create a new Viz instance (@see Caveats page for more info)
+                viz = new Viz();
+
+                // Possibly display the error
+                //console.error(error);
+            });
     }
 
-    //returns the text of every vertex as a String
+    /**
+     * Grabs text from every single vertex and return it as a String
+     * @returns {string} long concatenated string of all the text
+     */
     getStory(){
         var story = "";
         for(let k of this.E.keys()){
@@ -99,264 +102,302 @@ class Graph {
         return story.replace(/↶\n|↷\n/g, "");
     }
 
-    //returns an object of the text of every vertex of one path as a String, number of vertices
-    // with 3 or more links, and number of vertices with 2 links
+    /**
+     * Traversing graph from start to end on one random path
+     * @returns {{twoLinks: number, multiLinks: number, text: (string|string), list: Array}}
+     * twoLinks - number of vertices with 2 links
+     * multiLinks - number of vertices with more than 2 links
+     * text - long concatenated string of every vertex of one path
+     * list - array of every vertex of one path
+     */
     singlePath(){
-        //keep track of which vertices are visited and marked so it doesn't
-        // go back to a path it already gone through
-        var seen = new Map();
-        var mark = new Map();
-        var story = "";
-        var twoLinks = 0;
-        var mulitpleLinks = 0;
-        var start = "";
-        //grab first vertex, vertex with ID number 1
-        for(let k of this.E.keys()){
-            if(this.E.get(k)['numID'] === 1){
-                start = k;
-                break;
-            }
-        }
+        var seen = new Map(), //keep track of which vertices are visited
+            mark = new Map(), //keep track of which vertices not to go back to
+            story = "", //text of the twine game as String
+            storyArray = [], //text of the twine game as array
+            twoLinks = 0, //number of vertices with two links
+            mulitpleLinks = 0, //number of vertices with more than 2 links
+            start = this.getFirstPID(); //vertex where the game starts
 
-        // console.log("start: " + start);
         var vertex = this.E.get(start);
-        var child = vertex['Children'];
+        seen.set(vertex['PID'], true);
+        var child = vertex['LinksPass'];
 
         //save text
         story += vertex['Text'];
+        storyArray.push(vertex['Text']);
 
-        var childrenEmpty = child.length === 0;
-        //var returnedToStart = false;
+        //end of story conditions
+        var childrenEmpty = child.length === 0,
+            backToBeginning = false;
 
         //go down random path till "End" of story
         //End condition
         // 1. No more links aka children array is empty
-        // 2. It returns to starting vertex aka vertex number ID 1
-        while(!childrenEmpty){
+        // 2. It returns to starting vertex aka vertex number ID 1 and is a restart/start over
+        while(!childrenEmpty && !backToBeginning){
             //check number of links of current vertex
-            if(child.length === 2)
-                twoLinks++;
-            else if(child.length > 2)
-                mulitpleLinks++;
+            if(child.length === 2) twoLinks++;
+            else if(child.length > 2) mulitpleLinks++;
 
-            do {
-                //random edge to next vertex
+            do { //random edge to next vertex
                 var index = Math.floor(Math.random() * child.length);
-            }
-            while(mark.has(this.E.get(child[index])['numID'])); //random index that is unmarked
+            } while(mark.has(this.E.get(child[index])['PID'])); //get random index that is unmarked
 
-            //check if all seen then mark
+            //check if all the child are seen, if so mark
             let marked = true;
-            for(let c of child){
+            for(let c of child)
                 marked = marked && mark.has(c);
-            }
-            if(marked)
-                mark.set(vertex['numID'], true);
+            mark.set(vertex['PID'], marked);
 
-            var current = child[index];
-            ///test
-                //console.log(current);
-            ///test
+            //move on to next vertex
+            var current = child[index],
+                linkName = vertex['LinksName'][index];
             vertex = this.E.get(current);
-            if(!seen.has(vertex['numID']))
-                story += vertex['Text']; //save text
-            seen.set(vertex['numID'], true);
-            child = vertex['Children'];
+
+            //save text if text had not been saved
+            if(!seen.has(vertex['PID'])) {
+                story += vertex['Text'];
+                storyArray.push(vertex['Text']);
+            }
+
+            seen.set(vertex['PID'], true);
+            child = vertex['LinksPass'];
 
             if(child.length === 1)
-                mark.set(vertex['numID'], true);
+                mark.set(vertex['PID'], true);
 
+            //check end conditions
             childrenEmpty = child.length === 0;
-            // returnedToStart = current === start;
+            backToBeginning = current === start &&
+                (linkName.toLowerCase() === "restart" ||
+                linkName.toLowerCase() === "start over")
         }
-
         return {
             text: story,
+            list: storyArray,
             twoLinks: twoLinks,
             multiLinks: mulitpleLinks
         };
     }
-}
 
-//check duplicates with beginning vertex
-function matchStart(nameID){
-    //if nameID is default return or default is no longer in graph
-    if(nameID === defaultVer || !g.E.has(defaultVer))
-        return false;
-
-    //grab text and children of beginning vertex
-    let sObj = g.E.get(defaultVer);
-    let sText = sObj['Text'];
-    let sChildren = sObj['Children'];
-    //grab text and children of given vertex
-    let obj = g.E.get(nameID);
-    let text = obj['Text'];
-    let children = obj['Children'];
-    //compare texts and children
-    let tMatch = sText === text;
-    let cMatch = isChildrenEqual(sChildren, children);
-
-    return tMatch && cMatch;
-}
-//checks if the given array of children are the same
-function isChildrenEqual(childrenA, childrenB){
-    for(var i = 0; i < childrenA.length || i < childrenB.length; i++){
-        if(childrenA[i] !== childrenB[i])
-            return false;
+    /**
+     * Find starting vertex
+     * @returns {string} key of starting vertex
+     */
+    getFirstPID(){
+        var start = "";
+        for(let key of this.E.keys()) {
+            //default start passage = passage with pid 1
+            if (this.E.get(key)['PID'] === "1"){
+                start = key;
+                break;
+            }
+        }
+        return start;
     }
-    return true;
+
+    /**
+     * @returns {number} number of vertices
+     */
+    getNumVer(){ return this.V; }
+
+    /**
+     * @returns {number} number of edges
+     */
+    getNumEdge(){
+        var edges = 0;
+        for(var k of this.E.keys()){
+            var links = this.E.get(k)['LinksPass'];
+            edges += this.rmDuplicates(links).length;
+        }
+        return edges;
+    }
+
+    /**
+     * Remove duplicate values in an array
+     * @param list - a list of anything
+     * @returns {Array} new list with no duplicates
+     */
+    rmDuplicates(list){
+        var newList = [];
+        for(var l of list){
+            if(!newList.includes(l))
+                newList.push(l);
+        }
+        return newList;
+    }
+
+    /**
+     * Grabs name of twine game through passage shell
+     * @returns {string} name of the twine game
+     */
+    name(){
+        var name = "";
+        $.getJSON(url, function(data){
+            name += data['name'];
+        });
+        return name;
+    }
+
+    /**
+     * Getter function to return name of twine game
+     * @returns {string|*} name of the twine game
+     */
+    getName(){ return this.twineName; }
 }
 
-// INPUT: string nameID which represents the passage-name of each passage.
-// Traverses through the whole twine game and creates a graph representation
-function play(nameID) {
-    // console.log('starting to play');
-    let children = g.E.get(nameID)['Children'];
-    let linkType = g.E.get(nameID)['linkType'];
+// var counter = 0; //keep track of how many vertices got their text
 
-        for(let i = 0; i < children.length; i++) {
-            // check if children is in hashmap
-            // if (g.E.has(children[i])){
-            //     // dont do anything
-            //     console.log("The children is here already");
-            // }
-            if(!g.E.has(children[i]) && linkType[i] === "link-goto"){
-                // add child to graph
-                $.get("http://localhost:3000/click/" + i, function () {
-                    g.addVertex(children[i]);
-                    //replace beginning default if matches
-                    if(matchStart(children[i]))
-                        g.replaceVertex(defaultVer, children[i]);
-                    play(children[i]);
-                    $.get("http://localhost:3000/undo");
+/**
+ * Grab current text from passage shell using /text route
+ * @param vertex - key of the vertex
+ * @param g - graph object
+ */
+function getText(vertex, g){
+    // counter++;
+    $.getJSON(url + "text", function(text) {
+        var passData = g.E.get(vertex);
+        passData['Text'] = text['text'];
+        // console.log(passData['Text']);
+        g.E.set(vertex, passData);
+    });
+}
+
+/**
+ * Recursive function to traverse through entire twine game for text
+ * @param vertex - key of the vertex
+ * @param g - graph object
+ */
+function setText(vertex, g){
+    g.mark(vertex);
+    $.getJSON(url + "links", function(data){
+        let linkNames = g.E.get(vertex)['LinksName'];
+        let linkPass = g.E.get(vertex)['LinksPass'];
+        let links = data['links'];
+
+        for(let i = 0; i < links.length; i++){
+            var name = links[i]['text'].trim();
+            var index = linkNames.indexOf(name);
+            vertex = linkPass[index];
+            if(linkNames.includes(name) && !g.visited.has(vertex)) {
+                $.get(url + "click/" + i, function () {
+                    getText(vertex, g);
+                    setText(vertex, g);
+                    $.get(url + "undo");
                 });
             }
         }
-
-    g.mark(nameID);
-}
-
-// RETURN: an array of objects containing the children IDs of the current passage
-// each object is in the format [nameID: string, linkType: string]
-// This array contains all the links of the current passage. The field "linkType" describes if the link is a link-goto, cycling-Link or goto-link
-function getChildren(){
-    var links = [];
-    $.getJSON("http://localhost:3000/html", function(data){
-        var str = data.html;
-        let ID = "???";
-        while(str.length > 0 && str.includes("<tw-expression")) {
-            str = str.substring(str.indexOf("<tw-expression"));
-            let twExpression = str.substring(str.indexOf("<tw-expression") , str.indexOf(">"));
-            let expressionName = twExpression.substring(str.indexOf("name"));
-            let expressionType = expressionName.split("\"", 2)[1];
-
-            // console.log("Expression type is " + expressionType);
-            if (expressionType === "cycling-link"){
-                str = str.substring(str.indexOf("tw-link"));
-                ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
-            }else if (expressionType === "link"){
-                str = str.substring(str.indexOf("tw-link"));
-                ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
-            }else if (expressionType === "link-goto"){
-                str = str.substring(str.indexOf("link-goto"));
-                str = str.substring(str.indexOf("tw-link"));
-                let twLinkInfo = str.substring(str.indexOf("tw-link") , str.indexOf("</tw-link>"));
-                // Check if link contains a passage-name for ID, otherwise use text as ID
-                if (twLinkInfo.includes("passage-name")){
-                    str = str.substring(str.indexOf("passage-name"));
-                    ID = str.split("\"", 2)[1];
-                }else{
-                    ID = str.substring(str.indexOf(">")+1, str.indexOf("<"));
-                }
-            }else{
-                ID = "???";
-                console.log("Unsupported expression type: " + expressionType);
-                str = str.substring(str.indexOf("name"));
-            }
-            // push link into array
-            let link = {
-                nameID : ID,
-                linkType: expressionType
-            };
-            if(ID !== "???") {
-                links.push(link);
-            }
-        }
     });
-    // console.log(links);
-    return links;
 }
 
-var url = "http://localhost:3000/links";
-var g = new Graph();
-// $.getJSON("http://localhost:3000/reset");
+var url = "http://localhost:3000/";
 
-// Add beginning vertex to graph
-let defaultVer = "Begin";
-g.addVertex(defaultVer); //add initial vertex to graph
-play(defaultVer);
-// g.printGraph();
-
-//return graph of game
-function getGraph(){
-    return g;
-}
-
-//testing
-
-// for(let i = 0; i < 10; i++) {
-//     console.log("Trial " + i);
-//     g.singlePath();
-// }
-
-
+/**
+ * Parse html of twine game from /source route of passage shell
+ * @returns {Array} array of passages and its pid, text, and links
+ */
 function parseSource(){
     var passages = [];
-    $.getJSON("http://localhost:3000/source", function(source){
-        var storyData = source['source'].split("<tw-passagedata");
-        for(let data of storyData){
-            var name = data.split("\"", 4)[3];
-            var text = data.substring(data.indexOf(">")+1, data.indexOf("<"));
-            var str = text;
-            var links = [];
-            while(str.length > 0 && str.includes("[[") && str.includes("]]")){
-                links.push(str.substring(str.indexOf("[[")+2, str.indexOf("]]")));
-                str = str.substring(str.indexOf("]]")+2);
+    $.getJSON(url + "source", function(source){
+        var html = $.parseHTML(source['source']);
+        for(let el of html){
+            if(el.nodeName.toLowerCase() === "tw-passagedata") {
+                var attr = el.attributes;
+                var text = el.innerText;
+                var links = getLinks(text);
+                var passData = {
+                    pid: attr.pid.nodeValue,
+                    name: trim(attr.name.nodeValue),
+                    text: text,
+                    linksName: links[0],
+                    linksPass: links[1]
+                };
+                passages.push(passData);
             }
-            var pas = {
-                nameID: name,
-                text: text,
-                links: links
-            };
-            passages.push(pas);
         }
+        // console.log(passages);
     });
     return passages;
 }
 
-// console.log(parseSource());
+/**
+ * Parse text of each passage for links, does not support 'goto:' marco
+ * @param text -  html text from passage
+ * @returns {Array[]} array of links
+ */
+function getLinks(text){
+    var links = [];
+    var str = text;
 
-//a graph class - just a simple graph nothing twine related - maybe a graph library
-//another class - opens passage shell for you given direct route, grabs source,
-// parses it, puts it in graph, maybe function to start passage shell, function to grab
-// graph, and function to end passage shell
+    while(str.length > 0 && str.includes("[[") && str.includes("]]")){
+        var alink = str.substring(str.indexOf("[[")+2, str.indexOf("]]"));
+        if(!links.includes(alink))
+            links.push(alink);
+        str = str.substring(str.indexOf("]]")+2);
+    }
 
+    var linksName = [];   //name of link
+    var linksPass = [];   //name of passage it links to
 
-g.printGraph();
-console.log(graph);
+    //if links and passage name it's linked to is different
+    var index = 0;
+    for(let l of links){
+        if(l.includes("|")){
+            index = l.indexOf("|");
+            linksName.push(trim(l.substring(0, index)));
+            linksPass.push(trim(l.substring(index+1)));
+        }
+        else if(l.includes("->")){
+            index = l.lastIndexOf("->");
+            linksName.push(trim(l.substring(0, index)));
+            linksPass.push(trim(l.substring(index+2)));
+        }
+        else if(l.includes("<-")){
+            index = l.lastIndexOf("<-");
+            linksPass.push(trim(l.substring(0, index)));
+            linksName.push(trim(l.substring(index+2)));
+        }
+        else{
+            linksName.push(trim(l));
+            linksPass.push(trim(l));
+        }
+    }
 
-// draw the graph on page
-// var viz = new Viz();
-// viz.renderSVGElement(graph)
-//     .then(function(element) {
-//         document.body.appendChild(element);
-//     })
-//     .catch(error => {
-//         // Create a new Viz instance (@see Caveats page for more info)
-//         viz = new Viz();
-//
-//         // Possibly display the error
-//         //console.error(error);
-//     });
+    return [linksName, linksPass];
+}
+
+/**
+ * Trims extra spacings
+ * @param str - a String
+ * @returns {*|string} - the given string trimmed
+ */
+function trim(str){
+    var wordsArray = str.split(" ");
+    str = "";
+    for(var s of wordsArray) {
+        if(s.length > 0)
+            str += s.trim() + " ";
+    }
+    return str.trim();
+}
+
+/**
+ * Create graph object, set all text to each passage grabbed from passage shell
+ * @returns {Graph} graph of the twine game
+ */
+function createGraph(){
+    var g = new Graph(parseSource());
+    $.getJSON(url + "reset", function(){ //reset game
+        //set text from /text route to vertices
+        getText(g.getFirstPID(), g);
+        setText(g.getFirstPID(), g);
+    });
+    return g;
+}
+
+// Testing
+// var G = createGraph();
+// G.printGraph();
 
 
