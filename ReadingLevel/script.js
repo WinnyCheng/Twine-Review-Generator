@@ -1,11 +1,25 @@
 
-function storyReadability() {
+/**
+ * Estimates the readability of the text of the game
+ * @param g - graph of twine game built from Graph.js
 
-    const text = createGraph().getStory().replace(/[0-9]/g, '')
+ * @returns {array} grade levels based on readability and a list of "hard" words
+ */
+function storyReadability(g) {
+
+    //retrieve the story graph from Graph.js and remove all digits in text
+    const text = g.getStory().replace(/[0-9]/g, '')
+    //calculates the readability score of the game text using the Dale-Chall readability test
     const daleChallScore = readability.daleChallReadabilityScore(text)
+    //calculates the readability consensus based on a number of different readability tests and metrics
     const overallReadability = readability.textStandard(text)
+    //retrieve the list of difficult words from readability.js
+    const difficultWords = diffWords
     let daleChallGrade = ""
 
+    /*
+        maps the raw score to a corresponding grade level accordingly
+     */
     if (daleChallScore <= 4.9)
         daleChallGrade = "4th grade"
      else if (daleChallScore >= 5 && daleChallScore <= 5.5)
@@ -28,8 +42,7 @@ function storyReadability() {
         daleChallGrade = "college"
      else grade = "post college"
 
-    const storyReadability = [daleChallGrade, overallReadability, diffWords]
-    console.log('difficult words : ', diffWords)
+    const storyReadability = [daleChallGrade, overallReadability, difficultWords]
 
     return storyReadability
 

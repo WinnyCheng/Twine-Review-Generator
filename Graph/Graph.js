@@ -67,7 +67,7 @@ class Graph {
             }
 
             var children = str.split(" ");
-            children.pop();
+            children.pop(); //remove empty children
 
             if(str !== "" && children.length !== 0) {
                 for(let k = 0; k < children.length; k++) {
@@ -75,7 +75,7 @@ class Graph {
                 }
             }
         }
-        // draw the graph on page
+        // render the graph on page using viz.js
         var viz = new Viz();
         viz.renderSVGElement(graph)
             .then(function(element) {
@@ -86,7 +86,7 @@ class Graph {
                 viz = new Viz();
 
                 // Possibly display the error
-                //console.error(error);
+                console.error(error);
             });
     }
 
