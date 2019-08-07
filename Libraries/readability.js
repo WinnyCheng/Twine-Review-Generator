@@ -231,7 +231,7 @@ class Readability {
   difficultWords (text) {
     let textList = []
     const paragraph = RiTa.tokenize(text);
-    for (item of paragraph) {
+    for (let item of paragraph) {
       if (textList.indexOf(item) === -1 && item[0] !== item[0].toUpperCase()) {
         textList.push(item);
       }
