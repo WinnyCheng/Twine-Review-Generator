@@ -1,4 +1,5 @@
 const easyWords = words
+var diffWords = []
 const punctuationRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-./:;<=>?@[\]^_`{|}~]/g
 const syllable = function syllable(x) {
   /*
@@ -229,21 +230,23 @@ class Readability {
   }
   difficultWords (text) {
     let textList = []
-    let diffWords = []
-    const paragraph = RiTa.tokenize(text.toLowerCase());
-    for (let item of paragraph) {
-      if (textList.indexOf(item) === -1) {
+    const paragraph = RiTa.tokenize(text);
+    for (item of paragraph) {
+      if (textList.indexOf(item) === -1 && item[0] !== item[0].toUpperCase()) {
         textList.push(item);
       }
     }
     this.removePunc(textList);
     for (let word of textList) {
-      if (easyWords.indexOf(word) === -1 && diffWords.indexOf(word) === -1 && this.noPunctuation(word)) {
-        diffWords.push(word)
+      if (easyWords.indexOf(word) === -1 && diffWords.indexOf(word) === -1 && this.noPunctuation(word) && !RiTa.isAdverb(word)) {
+        for (let item of easyWords) {
+          if (RiTa.minEditDistance(word, item) > 2 && RiTa.getPresentParticiple(word) !== item) {
+            diffWords.push(word)
+          }
+        }
       }
     }
     diffWords.sort();
-    console.log('difficult words : ', diffWords)
     return [...diffWords].length
   }
   daleChallReadabilityScore (text) {
