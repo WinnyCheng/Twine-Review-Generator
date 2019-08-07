@@ -1,57 +1,49 @@
 
-function vocabBot() {
-    var text = g.getStory();
-    text = text.replace(/[0-9]/g, '');
-    var daleChall = readability.daleChallReadabilityScore(text);
-    var grade = "";
-    let levels = [];
+function storyReadability() {
+    const text = createGraph().getStory().replace(/[0-9]/g, '')
+    const daleChallScore = readability.daleChallReadabilityScore(text)
+    const overallReadability = readability.textStandard(text)
+    let daleChallGrade = ""
 
     if (daleChall <= 4.9) {
-        grade = "4th";
+        grade = "4th"
     } else if (daleChall >= 5 && daleChall <= 5.5) {
-        grade = "5th";
+        grade = "5th"
     } else if (daleChall >= 5.6 && daleChall <= 5.9) {
-        grade = "6th";
+        grade = "6th"
     } else if (daleChall >= 6 && daleChall <= 6.5) {
-        grade = "7th";
+        grade = "7th"
     } else if (daleChall >= 6.6 && daleChall <= 6.9) {
-        grade = "8th";
+        grade = "8th"
     } else if (daleChall >= 7 && daleChall <= 7.5) {
-        grade = "9th";
+        grade = "9th"
     } else if (daleChall >= 7.6 && daleChall <= 7.9) {
-        grade = "10th";
+        grade = "10th"
     } else if (daleChall >= 8 && daleChall <= 8.5) {
-        grade = "11th";
+        grade = "11th"
     } else if (daleChall >= 8.6 && daleChall <= 8.9) {
-        grade = "12th";
+        grade = "12th"
     } else if (daleChall >= 9 && daleChall <= 9.9) {
-        grade = "college";
-    } else grade = "post college";
+        grade = "college"
+    } else grade = "post college"
 
-    var variant = "grader.";
-    if(grade === "college") {
-        variant = "student.";
-    }
+    // var variant = "grader.";
+    // if(grade === "college") {
+    //     variant = "student.";
+    // }
+    //
+    // var output = "";
+    // if(grade !== "post college") {
+    //     output = "This story contains vocabulary that can be understood by an average " + grade + " " + variant;
+    // } else {
+    //     output = "This story contains complex vocabulary that even some college students might find challenging."
+    // }
 
-    var output = "";
-    if(grade !== "post college") {
-        output = "This story contains vocabulary that can be understood by an average " + grade + " " + variant;
-    } else {
-        output = "This story contains complex vocabulary that even some college students might find challenging."
-    }
+    const storyReadability = [daleChallGrade, overallReadability]
 
-    var std = readability.textStandard(text);
-    console.log(std);
-    console.log(output);
-    console.log(daleChall);
-    levels.push(grade);
-    levels.push(std);
-
-    //return output;
-    return levels
+    return storyReadability
 }
 
-vocabBot();
 
 // var arr = [];
 //
