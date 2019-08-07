@@ -5,27 +5,27 @@ function storyReadability() {
     const overallReadability = readability.textStandard(text)
     let daleChallGrade = ""
 
-    if (daleChall <= 4.9) {
+    if (daleChall <= 4.9)
         grade = "4th"
-    } else if (daleChall >= 5 && daleChall <= 5.5) {
+     else if (daleChall >= 5 && daleChall <= 5.5)
         grade = "5th"
-    } else if (daleChall >= 5.6 && daleChall <= 5.9) {
+     else if (daleChall >= 5.6 && daleChall <= 5.9)
         grade = "6th"
-    } else if (daleChall >= 6 && daleChall <= 6.5) {
+     else if (daleChall >= 6 && daleChall <= 6.5)
         grade = "7th"
-    } else if (daleChall >= 6.6 && daleChall <= 6.9) {
+     else if (daleChall >= 6.6 && daleChall <= 6.9)
         grade = "8th"
-    } else if (daleChall >= 7 && daleChall <= 7.5) {
+     else if (daleChall >= 7 && daleChall <= 7.5)
         grade = "9th"
-    } else if (daleChall >= 7.6 && daleChall <= 7.9) {
+     else if (daleChall >= 7.6 && daleChall <= 7.9)
         grade = "10th"
-    } else if (daleChall >= 8 && daleChall <= 8.5) {
+     else if (daleChall >= 8 && daleChall <= 8.5)
         grade = "11th"
-    } else if (daleChall >= 8.6 && daleChall <= 8.9) {
+     else if (daleChall >= 8.6 && daleChall <= 8.9)
         grade = "12th"
-    } else if (daleChall >= 9 && daleChall <= 9.9) {
+     else if (daleChall >= 9 && daleChall <= 9.9)
         grade = "college"
-    } else grade = "post college"
+     else grade = "post college"
 
     // var variant = "grader.";
     // if(grade === "college") {
