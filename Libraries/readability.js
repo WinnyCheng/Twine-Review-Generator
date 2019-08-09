@@ -239,11 +239,7 @@ class Readability {
     this.removePunc(textList);
     for (let word of textList) {
       if (easyWords.indexOf(word) === -1 && diffWords.indexOf(word) === -1 && this.noPunctuation(word) && !RiTa.isAdverb(word)) {
-        for (let item of easyWords) {
-          if (RiTa.minEditDistance(word, item) > 2 && RiTa.getPresentParticiple(word) !== item) {
-            diffWords.push(word)
-          }
-        }
+        diffWords.push(word)
       }
     }
     diffWords.sort();

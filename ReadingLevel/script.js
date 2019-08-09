@@ -44,6 +44,4 @@ function storyReadability(g) {
 
     return [daleChallGrade, overallReadability, difficultWords]
 
-
-
 }
