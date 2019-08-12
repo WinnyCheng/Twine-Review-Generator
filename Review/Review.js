@@ -8,7 +8,8 @@ var vertices = g.getNumVer(),
     sentiment = getSentiAna(g),
     encoderStr = getEncoder(),
     readinglvl = storyReadability(g),
-    gameName = g.getName();
+    gameName = g.getName(),
+    mma = g.getMaxMinAvg();
 
 // to insert a string inside a string
 String.prototype.insert = function (index, string) {
@@ -23,7 +24,7 @@ function checkFlag(){
     if(encoderStr.length === 0)
         setTimeout(checkFlag, 1000);
     else
-        printAll();
+        generateReview();
 }
 
 function printAll(){
@@ -63,8 +64,10 @@ function generateReview(){
     var rg = new RiGrammar();
     rg.loadFrom('grammar.json', function(){
         rg.addRule("<gameName>", gameName);
+        rg.addRule("<rating>", calcRating());
+        setRules(rg);
         // rg.print();
-        console.log(rg.expand());
+        document.getElementById("review").innerText = rg.expand();
     });
 }
 
@@ -78,4 +81,96 @@ Sentimental:
 Readability: too easy - complain about not being a kid or it's for kids, too hard complain
     about unable to read certain words
 Similarity: range 0.4 to 0.8, < 0.4 = off topic, 0.8 too similar in text (repetitive)
+Rating based on how many positives. 1 star for each metric
  */
+
+function calcRating(){
+    var rating = 0;
+    if(edges > vertices && mma[2] > 1 && mma[0] > 2)
+        rating++;
+    if(time >= 10 && time <=60)
+        rating++;
+    if(sentiment['score'] > -20 && sentiment['score'] < 20)
+        rating++;
+    if(readinglvl[0] !== "post college" && readinglvl[0] !== "college")
+        rating++;
+
+    var sim = false;
+    for(let val of encoderStr){
+        if(val > 0.8 || val < 0.4) {
+            sim = true;
+            break;
+        }
+    }
+    if(!sim)
+        rating++;
+
+    return rating.toString();
+}
+
+function setRules(rg){
+    //time of gameplay
+    if(time < 10) {
+        rg.addRule("<minute>", "only " + time);
+        rg.addRule("<timing>", ["too short", "not long enough", "better if it was longer"]);
+    }
+    else if(time > 60) {
+        rg.addRule("<minute>", "almost " + time);
+        rg.addRule("<timing>", ["too long", "way too long", "better if it was shorter"]);
+    }
+    else{
+        rg.addRule("<timing>", ["okay", "a good length"]);
+    }
+
+    //sentimental analysis
+    var score = sentiment['score'];
+    if(score > 0){
+        rg.addRule("<sentDes>", ["negative", "dark", "sad", "tragic"]);
+    }
+    else{
+        rg.addRule("<sentDes>", ["positive", "bright", "happy"]);
+    }
+
+    //graph structure
+    if(mma[0] > 10) {
+        rg.addRule("<opDes>", ["too many"]);
+    }
+    if(mma[2] > 1 && mma[0] > 2) {
+        rg.addRule("<opDes>", ["fair amount of", "good amount of"]);
+    }
+    else{
+        rg.addRule("<opDes>", ["not enough"]);
+    }
+
+    //similarity
+    var dif = 0;
+    var same = 0;
+    for(let val of encoderStr){
+        if(val > 0.8)
+            same++;
+        if(val < 0.4)
+            dif++;
+    }
+    if(dif > 3){
+        rg.addRule("<similarity>", [
+            "The story didn't flow too well. I changes from on topic to the next to quickly.",
+            "There is sometimes a lack of connect form on story point to another.",
+            "I kinda got lost at one point in the story.",
+            "I think <subject> was off topic at times",
+        ]);
+    }
+    else{
+        rg.addRule("<similarity>", [
+            "The flow of <subject> was okay.",
+            "Good story flow.",
+            "The flow of the story was so-so.",
+            "Its passable.",
+            "I was able to follow through with story."
+        ]);
+    }
+    if(same > 3){
+        rg.addRule("<similarity>", [
+            "There's too much repetition."
+        ]);
+    }
+}
