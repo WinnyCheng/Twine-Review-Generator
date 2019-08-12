@@ -20,7 +20,7 @@ class Graph {
      * Build Graph object
      * @param passages - an array of the all the passages in the twine game currently hosted by passage shell
      */
-    constructor(passages){
+    constructor(passages) {
         this.V = passages.length; //number of vertices
         this.E = this.addVertices(passages); //stores information about edges, pid, and text
         this.visited = new Map();
@@ -31,7 +31,9 @@ class Graph {
      * marks a vertex has been visited
      * @param vertex - key of the vertex
      */
-    mark(vertex){ this.visited.set(vertex, true); }
+    mark(vertex) {
+        this.visited.set(vertex, true);
+    }
 
     /**
      * Adds all passages to graph as vertices
@@ -40,7 +42,7 @@ class Graph {
      */
     addVertices(passages) {
         var map = new Map();
-        for(var i = 0; i < passages.length; i++){
+        for (var i = 0; i < passages.length; i++) {
             var passData = {
                 PID: passages[i]['pid'],  //unique ID number of passage
                 Text: "",
@@ -56,21 +58,21 @@ class Graph {
     /**
      * Prints a visual representation of graph on web page
      */
-    printGraph(){
+    printGraph() {
         var keys = this.E.keys(); //get all vertices
-        for(var i of keys){
+        for (var i of keys) {
             var val = this.E.get(i)['LinksPass']; //get all links for each vertex
             var str = "";
-            for(var j of val){
-                if(!str.includes(this.E.get(j)['PID']))
+            for (var j of val) {
+                if (!str.includes(this.E.get(j)['PID']))
                     str += this.E.get(j)['PID'] + " ";
             }
 
             var children = str.split(" ");
             children.pop(); //remove empty children
 
-            if(str !== "" && children.length !== 0) {
-                for(let k = 0; k < children.length; k++) {
+            if (str !== "" && children.length !== 0) {
+                for (let k = 0; k < children.length; k++) {
                     graph = graph.insert(graph.length - 2, " " + this.E.get(i)['PID'] + " -> " + children[k]);
                 }
             }
@@ -78,7 +80,7 @@ class Graph {
         // render the graph on page using viz.js
         var viz = new Viz();
         viz.renderSVGElement(graph)
-            .then(function(element) {
+            .then(function (element) {
                 document.body.appendChild(element);
             })
             .catch(error => {
@@ -94,9 +96,9 @@ class Graph {
      * Grabs text from every single vertex and return it as a String
      * @returns {string} long concatenated string of all the text
      */
-    getStory(){
+    getStory() {
         var story = "";
-        for(let k of this.E.keys()){
+        for (let k of this.E.keys()) {
             story += this.E.get(k)['Text'] + " ";
         }
         return story.replace(/↶\n|↷\n/g, "");
@@ -110,7 +112,7 @@ class Graph {
      * text - long concatenated string of every vertex of one path
      * list - array of every vertex of one path
      */
-    singlePath(){
+    singlePath() {
         var seen = new Map(), //keep track of which vertices are visited
             mark = new Map(), //keep track of which vertices not to go back to
             story = "", //text of the twine game as String
@@ -135,18 +137,18 @@ class Graph {
         //End condition
         // 1. No more links aka children array is empty
         // 2. It returns to starting vertex aka vertex number ID 1 and is a restart/start over
-        while(!childrenEmpty && !backToBeginning){
+        while (!childrenEmpty && !backToBeginning) {
             //check number of links of current vertex
-            if(child.length === 2) twoLinks++;
-            else if(child.length > 2) mulitpleLinks++;
+            if (child.length === 2) twoLinks++;
+            else if (child.length > 2) mulitpleLinks++;
 
             do { //random edge to next vertex
                 var index = Math.floor(Math.random() * child.length);
-            } while(mark.has(this.E.get(child[index])['PID'])); //get random index that is unmarked
+            } while (mark.has(this.E.get(child[index])['PID'])); //get random index that is unmarked
 
             //check if all the child are seen, if so mark
             let marked = true;
-            for(let c of child)
+            for (let c of child)
                 marked = marked && mark.has(c);
             mark.set(vertex['PID'], marked);
 
@@ -156,7 +158,7 @@ class Graph {
             vertex = this.E.get(current);
 
             //save text if text had not been saved
-            if(!seen.has(vertex['PID'])) {
+            if (!seen.has(vertex['PID'])) {
                 story += vertex['Text'] + " ";
                 storyArray.push(vertex['Text']);
             }
@@ -164,14 +166,14 @@ class Graph {
             seen.set(vertex['PID'], true);
             child = vertex['LinksPass'];
 
-            if(child.length === 1)
+            if (child.length === 1)
                 mark.set(vertex['PID'], true);
 
             //check end conditions
             childrenEmpty = child.length === 0;
             backToBeginning = current === start &&
                 (linkName.toLowerCase() === "restart" ||
-                linkName.toLowerCase() === "start over")
+                    linkName.toLowerCase() === "start over")
         }
         return {
             text: story,
@@ -185,11 +187,11 @@ class Graph {
      * Find starting vertex
      * @returns {string} key of starting vertex
      */
-    getFirstPID(){
+    getFirstPID() {
         var start = "";
-        for(let key of this.E.keys()) {
+        for (let key of this.E.keys()) {
             //default start passage = passage with pid 1
-            if (this.E.get(key)['PID'] === "1"){
+            if (this.E.get(key)['PID'] === "1") {
                 start = key;
                 break;
             }
@@ -200,14 +202,16 @@ class Graph {
     /**
      * @returns {number} number of vertices
      */
-    getNumVer(){ return this.V; }
+    getNumVer() {
+        return this.V;
+    }
 
     /**
      * @returns {number} number of edges
      */
-    getNumEdge(){
+    getNumEdge() {
         var edges = 0;
-        for(var k of this.E.keys()){
+        for (var k of this.E.keys()) {
             var links = this.E.get(k)['LinksPass'];
             edges += this.rmDuplicates(links).length;
         }
@@ -219,10 +223,10 @@ class Graph {
      * @param list - a list of anything
      * @returns {Array} new list with no duplicates
      */
-    rmDuplicates(list){
+    rmDuplicates(list) {
         var newList = [];
-        for(var l of list){
-            if(!newList.includes(l))
+        for (var l of list) {
+            if (!newList.includes(l))
                 newList.push(l);
         }
         return newList;
@@ -232,9 +236,9 @@ class Graph {
      * Grabs name of twine game through passage shell
      * @returns {string} name of the twine game
      */
-    name(){
+    name() {
         var name = "";
-        $.getJSON(url, function(data){
+        $.getJSON(url, function (data) {
             name += data['name'];
         });
         return name;
@@ -244,8 +248,28 @@ class Graph {
      * Getter function to return name of twine game
      * @returns {string|*} name of the twine game
      */
-    getName(){ return this.twineName; }
+    getName() {
+        return this.twineName;
+    }
+
+    getMaxMinAvg() {
+        var max = 0, min = Number.MAX_VALUE, sum = 0, total = 0;
+        for(let k of this.E.keys()){
+            var links = this.E.get(k)['LinksPass'];
+            var edges = this.rmDuplicates(links).length;
+
+            total++;
+            sum += edges;
+            if(edges > max)
+                max = edges;
+            if(edges < min)
+                min = edges;
+        }
+        var avg = Math.round(sum / total);
+        return [max, min, avg];
+    }
 }
+
 
 // var counter = 0; //keep track of how many vertices got their text
 
