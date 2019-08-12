@@ -42,6 +42,19 @@ function printAll(){
         }
     }
 
+    let sentencelist = "{ }";
+
+    // just string formatting
+    for (let sentence of readinglvl[3]) {
+
+        if (readinglvl[3].indexOf(sentence) === readinglvl[3].indexOf(readinglvl[3][readinglvl[3].length - 1])) {
+            sentencelist = sentencelist.insert(sentencelist.length - 1, "\"" + sentence + "\"");
+        }
+        else {
+            sentencelist = sentencelist.insert(sentencelist.length - 2, "\"" + sentence + "\", ");
+        }
+    }
+
     var str = "Printing Data: " +
         "\n" + gameName +
         "\nNumber of vertices: " + vertices +
@@ -52,7 +65,8 @@ function printAll(){
         " Score: " + sentiment['score'] +
         "\nReadability: Grade1: " + readinglvl[0] + " Grade2: " + readinglvl[1] +
         "\nDifficult words: " + wordlist +
-        "\nSimilarity: ";
+        "\nExample sentences: " + sentencelist +
+        "\nSimilarity:) ";
     for(let val of encoderStr){
         str += "\n" + val;
     }

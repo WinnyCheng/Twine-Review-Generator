@@ -1,5 +1,6 @@
 const easyWords = words
 let diffWords = []
+let diffSentences = []
 const punctuationRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-./:;<=>?@[\]^_`{|}~]/g
 const syllable = function syllable(x) {
   /*
@@ -122,9 +123,18 @@ class Readability {
   }
   sentenceCount (text) {
     let ignoreCount = 0
+    let tempList = []
     let sentences = text.split(/ *[.?!]['")\]]*[ |\n](?=[A-Z])/g)
     for (let sentence of sentences) {
       if (this.lexiconCount(sentence) <= 2) ignoreCount += 1
+      else {
+        if (this.difficultWords(sentence, tempList) > 3) {
+          if (diffSentences.indexOf(sentence) === -1)
+            diffSentences.push(sentence); tempList = [] }
+        else if (this.difficultWords(sentence, tempList) <= 3 && this.difficultWords(sentence, tempList) > 1) {
+          if (diffSentences.indexOf(sentence) === -1)
+            diffSentences.push(sentence); tempList = [] }
+      }
     }
     const validSentences = sentences.length - ignoreCount
     return validSentences > 1 ? validSentences : 1
@@ -228,7 +238,7 @@ class Readability {
     returnVal = Math.legacyRound(returnVal, 1)
     return !isNaN(returnVal) ? returnVal : 0.0
   }
-  difficultWords (text) {
+  difficultWords (text, list) {
     let textList = []
     const paragraph = RiTa.tokenize(text);
     for (let item of paragraph) {
@@ -238,16 +248,16 @@ class Readability {
     }
     this.removePunc(textList);
     for (let word of textList) {
-      if (easyWords.indexOf(word) === -1 && diffWords.indexOf(word) === -1 && this.noPunctuation(word) && !RiTa.isAdverb(word)) {
-        diffWords.push(word)
+      if (easyWords.indexOf(word) === -1 && list.indexOf(word) === -1 && this.noPunctuation(word) && !RiTa.isAdverb(word)) {
+        list.push(word)
       }
     }
-    diffWords.sort();
-    return [...diffWords].length
+    list.sort();
+    return [...list].length
   }
   daleChallReadabilityScore (text) {
     const wordCount = this.lexiconCount(text);
-    const count = wordCount - this.difficultWords(text)
+    const count = wordCount - this.difficultWords(text, diffWords)
     const per = (count / wordCount * 100)
     if (isNaN(per)) return 0.0
     const difficultWords = 100 - per
@@ -256,7 +266,7 @@ class Readability {
     return Math.legacyRound(score, 2)
   }
   gunningFog (text) {
-    const perDiffWords = (this.difficultWords(text, 3) / this.lexiconCount(text) * 100)
+    const perDiffWords = (this.difficultWords(text, diffWords) / this.lexiconCount(text) * 100)
     const grade = 0.4 * (this.averageSentenceLength(text) + perDiffWords)
     const returnVal = Math.legacyRound(grade, 2)
     return !isNaN(returnVal) ? returnVal : 0.0
