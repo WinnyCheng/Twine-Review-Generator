@@ -15,6 +15,8 @@ function storyReadability(g) {
     const overallReadability = readability.textStandard(text)
     //retrieve the list of difficult words from readability.js
     const difficultWords = diffWords
+    //retrieve the list of difficult sentences from readability.js
+    const difficultSentences = diffSentences
     let daleChallGrade = ""
 
     /*
@@ -42,6 +44,6 @@ function storyReadability(g) {
         daleChallGrade = "college"
      else daleChallGrade = "post college"
 
-    return [daleChallGrade, overallReadability, difficultWords]
+    return [daleChallGrade, overallReadability, difficultWords, difficultSentences]
 
 }
