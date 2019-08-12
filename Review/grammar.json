@@ -1,0 +1,28 @@
+{
+  "<start>": [
+    "Overall, I'll give <subject> a <rating> star.",
+    "<subject> is <description> <conjunction>, <clause>.",
+    "<subject> gets a <rating> star from me"
+  ],
+  "<subject>": [
+    "<gameName>",
+    "the game",
+    "the story",
+    "the playthrough"
+  ],
+  "<length>": [
+    "<subject> was <timing>"
+  ],
+  "<options>": [
+
+  ],
+  "<sentiment>": [
+
+  ],
+  "<gradeLvl>": [
+
+  ],
+  "<similarity>": [
+
+  ]
+}

@@ -97,7 +97,7 @@ class Graph {
     getStory(){
         var story = "";
         for(let k of this.E.keys()){
-            story += this.E.get(k)['Text'];
+            story += this.E.get(k)['Text'] + " ";
         }
         return story.replace(/↶\n|↷\n/g, "");
     }
@@ -124,7 +124,7 @@ class Graph {
         var child = vertex['LinksPass'];
 
         //save text
-        story += vertex['Text'];
+        story += vertex['Text'] + " ";
         storyArray.push(vertex['Text']);
 
         //end of story conditions
@@ -157,7 +157,7 @@ class Graph {
 
             //save text if text had not been saved
             if(!seen.has(vertex['PID'])) {
-                story += vertex['Text'];
+                story += vertex['Text'] + " ";
                 storyArray.push(vertex['Text']);
             }
 
