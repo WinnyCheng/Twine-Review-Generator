@@ -44,6 +44,6 @@ function storyReadability(g) {
         daleChallGrade = "college"
      else daleChallGrade = "post college"
 
-    return [daleChallGrade, overallReadability, difficultWords, difficultSentences]
+    return [daleChallGrade, overallReadability, difficultWords, difficultSentences, daleChallScore]
 
 }

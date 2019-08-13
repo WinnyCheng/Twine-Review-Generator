@@ -187,4 +187,25 @@ function setRules(rg){
             "There's too much repetition."
         ]);
     }
+
+    var readVal = readinglvl[4];
+    if(readVal <= 5.9){
+        rg.addRule("<readability>", "too easy");
+        rg.addRule("<gradeLvl>", [
+
+        ]);
+    }
+    else if(readVal > 5.9 && readVal <= 7.9){
+        rg.addRule("<gradeLvl>", [
+
+        ]);
+    }
+    else{
+        rg.addRule("<readability>", "too hard");
+        rg.addRule("<gradeLvl>", [
+
+        ]);
+        rg.addRule("<difWord>", readinglvl[2]);
+        rg.addRule("<difSent>", readinglvl[3])
+    }
 }
