@@ -129,11 +129,9 @@ class Readability {
       if (this.lexiconCount(sentence) <= 2) ignoreCount += 1
       else {
         if (this.difficultWords(sentence, tempList) > 3) {
-          if (diffSentences.indexOf(sentence) === -1)
-            diffSentences.push(sentence); tempList = [] }
+          if (diffSentences.indexOf(sentence) === -1) diffSentences.push(sentence); tempList = [] }
         else if (this.difficultWords(sentence, tempList) <= 3 && this.difficultWords(sentence, tempList) > 1) {
-          if (diffSentences.indexOf(sentence) === -1)
-            diffSentences.push(sentence); tempList = [] }
+          if (diffSentences.indexOf(sentence) === -1) diffSentences.push(sentence); tempList = [] }
       }
     }
     const validSentences = sentences.length - ignoreCount
