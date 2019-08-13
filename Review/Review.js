@@ -65,12 +65,12 @@ function printAll(){
         "\nReadability: Grade1: " + readinglvl[0] + " Grade2: " + readinglvl[1] +
         "\nDifficult words: " + wordlist +
         "\nExample sentences: " + sentencelist +
-        "\nSimilarity:) ";
+        "\nSimilarity: ";
     for(let val of encoderStr){
         str += "\n" + val;
     }
+    str += "\nVertices:" + g.printAllVertices()
     document.getElementById("review").innerText = str;
-    // console.log(str);
 }
 
 function generateReview(){
