@@ -242,8 +242,8 @@
     "<rateStar> <length> <gradeLvl> <options> <similarity> <sentiment>"
   ],
   "<rateStar>": [
-    "<toSum>, <rate>.",
-    "<rate>."
+    "<toSum>, <rate>. <sentence>",
+    "<rate>. <sentence>"
   ],
   "<rate>": [
     "I'll give <subject> a <rating> star",
@@ -256,11 +256,12 @@
   ],
   "<subject>": [
     "<gameName>",
-    "the game",
-    "the story",
-    "the playthrough",
-    "the Twine game",
-    "it"
+    "The game",
+    "The story",
+    "The playthrough",
+    "The Twine game",
+    "It",
+    "This"
   ],
   "<length>": [
     "<subject> was <timing>.",
@@ -281,5 +282,30 @@
     "In general",
     "I guess",
     "All in all"
-  ]
+  ],
+  "<sentence>": [
+    "I liked <subject>.",
+    "I disliked <subject>.",
+    "<subject> was <fun>.",
+    "<subject> was <boring>.",
+    "<subject> got an <fun> plot.",
+    "<subject> got an <boring> plot."
+  ],
+  "<fun>": [
+    "fun",
+    "interesting",
+    "amusing",
+    "enjoyable",
+    "entertaining",
+    "pleasant"
+  ],
+  "<boring>": [
+    "boring",
+    "dull",
+    "monotonous",
+    "lame",
+    "uninteresting"
+  ],
+  "<short>": ["short", "brief", "short-lived", "compressed", "condensed"],
+  "<long>": ["lengthy", "prolonged", "stretched", "extensive"]
 }

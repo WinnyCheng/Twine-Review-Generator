@@ -23,8 +23,10 @@ function checkFlag(){
 
     if(encoderStr.length === 0)
         setTimeout(checkFlag, 1000);
-    else
+    else {
         generateReview();
+        printAll();
+    }
 }
 
 function printAll(){
@@ -70,8 +72,9 @@ function printAll(){
     for(let val of encoderStr){
         str += "\n" + val;
     }
-    str += "\nVertices:" + g.printAllVertices()
-    document.getElementById("review").innerText = str;
+    str += "\nVertices:" + g.printAllVertices();
+    console.log(sentiment);
+    document.getElementById("review2").innerText = str;
 }
 
 function generateReview(){
@@ -80,7 +83,7 @@ function generateReview(){
         rg.addRule("<gameName>", gameName);
         rg.addRule("<rating>", calcRating());
         setRules(rg);
-        // rg.print();
+        rg.print();
         document.getElementById("review").innerText = rg.expand();
     });
 }
@@ -126,11 +129,11 @@ function setRules(rg){
     //time of gameplay
     if(time < 10) {
         rg.addRule("<minute>", "only " + time);
-        rg.addRule("<timing>", ["too short", "not long enough", "better if it was longer"]);
+        rg.addRule("<timing>", ["too <short>", "not long enough", "better if it was longer"]);
     }
     else if(time > 60) {
         rg.addRule("<minute>", "almost " + time);
-        rg.addRule("<timing>", ["too long", "way too long", "better if it was shorter"]);
+        rg.addRule("<timing>", ["too <long>", "way too <long>", "better if it was shorter"]);
     }
     else{
         rg.addRule("<timing>", ["okay", "a good length"]);
@@ -139,11 +142,15 @@ function setRules(rg){
     //sentimental analysis
     var score = sentiment['score'];
     if(score > 0){
-        rg.addRule("<sentDes>", ["negative", "dark", "sad", "tragic"]);
+        rg.addRule("<sentDes>", "<negative>");
+        rg.addRule("<sentiment>", "It's a little too <positive>.")
     }
     else{
-        rg.addRule("<sentDes>", ["positive", "bright", "happy"]);
+        rg.addRule("<sentDes>", ["<positive>"]);
+        rg.addRule("<sentiment>", "It's a little too <negative>.")
     }
+    rg.addRule("<negative>", getAdj(sentiment['negative']['words']));
+    rg.addRule("<positive>", getAdj(sentiment['positive']['words']));
 
     //graph structure
     if(mma[0] > 10) {
@@ -184,28 +191,46 @@ function setRules(rg){
     }
     if(same > 3){
         rg.addRule("<similarity>", [
-            "There's too much repetition."
+            "There's too much repetition.",
+            "It was kinda repetitive.",
         ]);
     }
 
+    //readability
     var readVal = readinglvl[4];
     if(readVal <= 5.9){
-        rg.addRule("<readability>", "too easy");
-        rg.addRule("<gradeLvl>", [
-
-        ]);
+        rg.addRule("<readability>", ["too easy", "too simple"]);
+        rg.addRule("<gradeLvl>", "<sentence>");
     }
     else if(readVal > 5.9 && readVal <= 7.9){
-        rg.addRule("<gradeLvl>", [
-
-        ]);
+        rg.addRule("<gradeLvl>", ["<sentence>"]);
     }
     else{
         rg.addRule("<readability>", "too hard");
         rg.addRule("<gradeLvl>", [
-
+            "\"<difficult>\" What does this even mean?",
+            "\"<difficult>\" was an interesting wording.",
+            "I had a frustrating time playing <subject>. The wording was complicated.",
+            "I had some difficulty understanding some things. Like, \"<difficult>\" or \"<difficult>\""
         ]);
-        rg.addRule("<difWord>", readinglvl[2]);
-        rg.addRule("<difSent>", readinglvl[3])
+        rg.addRule("<difficult>", ["<difWord>", "<difSent>"])
     }
+    rg.addRule("<difWord>", readinglvl[2]);
+    rg.addRule("<difSent>", readinglvl[3]);
+}
+
+/**
+ * Filter out words that are no adjectives
+ * @param wordslist list of words
+ */
+function getAdj(wordslist){
+    let w = 0;
+    while (w < wordslist.length) {
+        var word = wordslist[w];
+        if (!RiTa.isAdjective(word))
+            wordslist.splice(w, 1);
+        else
+            w++;
+    }
+    return wordslist;
 }
