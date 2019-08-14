@@ -26,18 +26,20 @@ function checkFlag(){
     else {
         generateReview();
         printAll();
+        g.printAllVertices();
     }
 }
 
 function printAll(){
 
     let wordlist = "{ }";
+    readinglvl[2].splice(5, readinglvl[2].length - 5)
 
     // just string formatting
     for (let word of readinglvl[2]) {
 
         if (readinglvl[2].indexOf(word) === readinglvl[2].indexOf(readinglvl[2][readinglvl[2].length - 1])) {
-            wordlist = wordlist.insert(wordlist.length - 1, "\"" + word + "\"");
+            wordlist = wordlist.insert(wordlist.length - 1, "\"" + word + "\",...");
         }
         else {
             wordlist = wordlist.insert(wordlist.length - 2, "\"" + word + "\", ");
@@ -45,15 +47,16 @@ function printAll(){
     }
 
     let sentencelist = "{ }";
+    readinglvl[3].splice(3, readinglvl[2].length - 3)
 
     // just string formatting
     for (let sentence of readinglvl[3]) {
 
         if (readinglvl[3].indexOf(sentence) === readinglvl[3].indexOf(readinglvl[3][readinglvl[3].length - 1])) {
-            sentencelist = sentencelist.insert(sentencelist.length - 1, "\"" + sentence + "\"");
+            sentencelist = sentencelist.insert(sentencelist.length - 1, "\n->\"" + sentence + "\"<-");
         }
         else {
-            sentencelist = sentencelist.insert(sentencelist.length - 2, "\"" + sentence + "\", ");
+            sentencelist = sentencelist.insert(sentencelist.length - 2, "\n->\"" + sentence + "\"<-, ");
         }
     }
 
@@ -72,8 +75,6 @@ function printAll(){
     for(let val of encoderStr){
         str += "\n" + val;
     }
-    str += "\nVertices:" + g.printAllVertices();
-    console.log(sentiment);
     document.getElementById("review2").innerText = str;
 }
 
