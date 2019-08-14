@@ -44,5 +44,3 @@ function test(){
     document.getElementById("time").innerText = "Estimated time of gameplay of: " +
         gameplay(g, 100) + " minutes";
 }
-
-// test();
