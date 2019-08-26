@@ -61,18 +61,14 @@ class Graph {
     printGraph() {
         var keys = this.E.keys(); //get all vertices
         for (var i of keys) {
-            //let psentences = this.E.get(i)['Text'].split(/ *[.?!]['")\]]*[ |\n](?=[A-Z])/g)
-            //var passage = this.E.get(i)['PID'] + ": " + psentences[0].replace(/↶\n|↷\n/g, "") + "..."
             if(i.charAt(1) === ".") var parent = "Parent PID " + this.E.get(i)['PID'] + ": " + i.substr(3)
             else var parent = "Parent PID " + this.E.get(i)['PID'] + ": " + i
             var child = ""
             var val = this.E.get(i)['LinksPass']; //get all links for each vertex
             var str = "";
             for (var j of val) {
-                //let csentences = this.E.get(j)['Text'].split(/ *[.?!]['")\]]*[ |\n](?=[A-Z])/g)
                 if (!str.includes(this.E.get(j)['PID']))
                     str += this.E.get(j)['PID'] + " ";
-                //var child = this.E.get(j)['PID'] + ": " + csentences[0].replace(/↶\n|↷\n/g, "") + "..."
                 if(j.charAt(1) === ".") child += "\nChild PID " + this.E.get(j)['PID'] + ": " + j.substr(3)
                 else child += "\nChild PID " + this.E.get(j)['PID'] + ": " + j
             }
@@ -122,9 +118,10 @@ class Graph {
         let vertex = ""
         for (let i of keys) {
             if(i.charAt(1) === ".") vertex += "\n" + this.E.get(i)['PID'] + ": " + i.substr(3)
-            else vertex = "\n" + this.E.get(i)['PID'] + ": " + i
+            else vertex += "\n" + this.E.get(i)['PID'] + ": " + i
         }
-        return vertex
+        let vertices = "Vertices: " + vertex
+        document.getElementById("vertices").innerText = vertices;
     }
 
     /**
@@ -302,11 +299,9 @@ class Graph {
  * @param g - graph object
  */
 function getText(vertex, g){
-    // counter++;
     $.getJSON(url + "text", function(text) {
         var passData = g.E.get(vertex);
         passData['Text'] = text['text'];
-        // console.log(passData['Text']);
         g.E.set(vertex, passData);
     });
 }
@@ -363,7 +358,6 @@ function parseSource(){
                 passages.push(passData);
             }
         }
-        // console.log(passages);
     });
     return passages;
 }
@@ -442,9 +436,3 @@ function createGraph(){
     });
     return g;
 }
-
-// Testing
-// var G = createGraph();
-// G.printGraph();
-
-

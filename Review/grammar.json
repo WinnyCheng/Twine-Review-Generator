@@ -251,16 +251,23 @@
     "<subject> gets a <rating> star from me",
     "<rating> star",
     "Maybe a <rating> star",
+    "maybe a <rating> star",
     "<rating> star? Not too sure how to rate things",
     "<rating> star...maybe...I don't know. Close enough."
   ],
   "<subject>": [
     "<gameName>",
     "The game",
+    "the game",
     "The story",
+    "the story",
     "The playthrough",
+    "the playthrough",
+    "the Twine game",
     "The Twine game",
+    "it",
     "It",
+    "this",
     "This"
   ],
   "<length>": [
@@ -281,7 +288,8 @@
     "Overall",
     "In general",
     "I guess",
-    "All in all"
+    "All in all",
+    "I would say"
   ],
   "<sentence>": [
     "I liked <subject>.",
